@@ -6,6 +6,10 @@
   font-style: normal;
 }
 
+:root {
+  font-size: 16px; /* 1rem = 16px 기준 */
+}
+
 body {
   font-family: 'Nanum Gothic', Arial, sans-serif;
   background: #f2f4f7;
@@ -29,7 +33,7 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: clamp(180px, 25vh, 300px);
+  height: 14rem; /* 배너 높이 */
 }
 
 .slides {
@@ -49,16 +53,16 @@ body {
 
 .dots {
   position: absolute;
-  bottom: 1vh;
+  bottom: 0.5rem;
   width: 100%;
   text-align: center;
 }
 
 .dot {
   display: inline-block;
-  width: clamp(6px, 2vw, 8px);
-  height: clamp(6px, 2vw, 8px);
-  margin: 0 clamp(2px, 1vw, 4px);
+  width: 0.5rem;
+  height: 0.5rem;
+  margin: 0 0.25rem;
   background: rgba(255,255,255,0.5);
   border-radius: 50%;
 }
@@ -69,40 +73,47 @@ body {
 
 /* ===== 메뉴 ===== */
 .container {
-  padding: clamp(16px,5vw,32px) clamp(16px,4vw,28px) clamp(24px,8vw,40px);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
-  font-size: clamp(20px, 5vw, 28px);
-  margin-bottom: clamp(4px, 1vw, 8px);
+  font-size: 1.4rem;
+  margin-bottom: 0.25rem;
 }
 
 .subtitle {
-  font-size: clamp(14px, 3.5vw, 18px);
+  font-size: 0.875rem;
   color: #666;
-  margin-bottom: clamp(12px,4vw,20px);
+  margin-bottom: 1rem;
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: clamp(8px,3vw,16px);
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 28rem; /* 너무 커지지 않게 제한 */
 }
 
 .menu a {
+  width: 100%;
   background: #fff;
-  border-radius: clamp(12px,4vw,18px);
-  padding: clamp(16px,5vw,24px) clamp(16px,4vw,22px);
+  border-radius: 0.875rem;
+  padding: 1.2rem 1rem;
   text-decoration: none;
   color: #222;
-  font-size: clamp(16px,4vw,22px);
+  font-size: 1.125rem;
   font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: transform 0.2s ease;
-  box-shadow: 0 clamp(4px,1vw,12px) clamp(12px,3vw,24px) rgba(0,0,0,0.08);
+  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.08);
 
+  /* 모바일 터치 하이라이트 제거 */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   touch-action: manipulation;
@@ -111,12 +122,23 @@ h1 {
 
 .menu a:hover,
 .menu a:active {
-  transform: translateY(-2%);
-  background: #fff; /* 호버 시 배경색 제거 */
+  transform: translateY(-0.2rem); /* 살짝 띄우기 */
+  background: #fff; /* 호버 시 색 변화 제거 */
 }
 
 .menu a span {
-  font-size: clamp(12px,3vw,16px);
+  font-size: 0.875rem;
   color: #888;
   font-weight: normal;
+}
+
+/* ===== 반응형 텍스트 (선택 사항) ===== */
+@media (max-width: 360px) {
+  h1 { font-size: 1.2rem; }
+  .subtitle { font-size: 0.75rem; }
+  .menu a { font-size: 1rem; padding: 1rem 0.8rem; }
+}
+
+@media (min-width: 480px) {
+  .menu a { font-size: 1.25rem; padding: 1.4rem 1.2rem; }
 }
