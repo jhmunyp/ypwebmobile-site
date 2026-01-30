@@ -29,7 +29,7 @@ body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 25vh; /* 화면 높이 비율 적용 */
+  height: clamp(180px, 25vh, 300px);
 }
 
 .slides {
@@ -56,9 +56,9 @@ body {
 
 .dot {
   display: inline-block;
-  width: 2vw;
-  height: 2vw;
-  margin: 0 1vw;
+  width: clamp(6px, 2vw, 8px);
+  height: clamp(6px, 2vw, 8px);
+  margin: 0 clamp(2px, 1vw, 4px);
   background: rgba(255,255,255,0.5);
   border-radius: 50%;
 }
@@ -69,41 +69,40 @@ body {
 
 /* ===== 메뉴 ===== */
 .container {
-  padding: 5vw 4vw 8vw;
+  padding: clamp(16px,5vw,32px) clamp(16px,4vw,28px) clamp(24px,8vw,40px);
 }
 
 h1 {
-  font-size: 5vw;
-  margin-bottom: 1vw;
+  font-size: clamp(20px, 5vw, 28px);
+  margin-bottom: clamp(4px, 1vw, 8px);
 }
 
 .subtitle {
-  font-size: 3.5vw;
+  font-size: clamp(14px, 3.5vw, 18px);
   color: #666;
-  margin-bottom: 4vw;
+  margin-bottom: clamp(12px,4vw,20px);
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 3vw;
+  gap: clamp(8px,3vw,16px);
 }
 
 .menu a {
   background: #fff;
-  border-radius: 4vw;
-  padding: 5vw 4vw;
+  border-radius: clamp(12px,4vw,18px);
+  padding: clamp(16px,5vw,24px) clamp(16px,4vw,22px);
   text-decoration: none;
   color: #222;
-  font-size: 4vw;
+  font-size: clamp(16px,4vw,22px);
   font-weight: bold;
   display: flex;
   justify-content: space-between;
   align-items: center;
   transition: transform 0.2s ease;
-  box-shadow: 0 1vw 3vw rgba(0,0,0,0.08);
+  box-shadow: 0 clamp(4px,1vw,12px) clamp(12px,3vw,24px) rgba(0,0,0,0.08);
 
-  /* 모바일 터치 하이라이트 제거 */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
   touch-action: manipulation;
@@ -113,38 +112,11 @@ h1 {
 .menu a:hover,
 .menu a:active {
   transform: translateY(-2%);
-  background: #fff; /* 호버 시 배경색 변화 제거 */
+  background: #fff; /* 호버 시 배경색 제거 */
 }
 
 .menu a span {
-  font-size: 3vw;
+  font-size: clamp(12px,3vw,16px);
   color: #888;
   font-weight: normal;
-}
-
-/* ===== 미디어 쿼리 ===== */
-
-/* 작은 모바일 (375px 이하) */
-@media (max-width: 375px) {
-  h1 { font-size: 20px; }
-  .subtitle { font-size: 14px; }
-  .menu a { font-size: 16px; padding: 18px 16px; border-radius: 12px; }
-  .dot { width: 6px; height: 6px; margin: 0 3px; }
-}
-
-/* 큰 모바일 (414px~768px) */
-@media (min-width: 376px) and (max-width: 768px) {
-  h1 { font-size: 22px; }
-  .subtitle { font-size: 16px; }
-  .menu a { font-size: 18px; padding: 20px 18px; border-radius: 14px; }
-  .dot { width: 7px; height: 7px; margin: 0 3px; }
-}
-
-/* 태블릿 */
-@media (min-width: 769px) {
-  .slider { height: 35vh; }
-  h1 { font-size: 28px; }
-  .subtitle { font-size: 18px; }
-  .menu a { font-size: 20px; padding: 22px 20px; border-radius: 16px; }
-  .dot { width: 8px; height: 8px; margin: 0 4px; }
 }
