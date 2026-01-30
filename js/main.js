@@ -41,6 +41,7 @@ slider.addEventListener('touchend', e => {
 });
 
 // ===== 메뉴 버튼 클릭 (JS 이벤트) =====
+// .no-js 클래스가 붙은 버튼(전화버튼 등) 제외
 document.querySelectorAll('.menu-item:not(.no-js)').forEach(button => {
   button.addEventListener('click', e => {
     e.preventDefault();
