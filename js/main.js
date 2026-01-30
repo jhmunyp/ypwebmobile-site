@@ -40,8 +40,7 @@ slider.addEventListener('touchend', e => {
   startAuto();
 });
 
-// ===== 메뉴 버튼 클릭 =====
-// .no-js 클래스 제외 (전화 버튼 안전)
+// ===== 메뉴 버튼 클릭 (전화 버튼 제외) =====
 document.querySelectorAll('.menu-item:not(.no-js)').forEach(button => {
   button.addEventListener('click', e => {
     e.preventDefault();
