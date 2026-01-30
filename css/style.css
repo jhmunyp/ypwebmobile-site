@@ -35,6 +35,7 @@ h1 { font-size: 22px; margin-bottom: 6px; }
 }
 .menu a:hover {
   transform: translateY(-2px);
-  background: #e0f0ff; /* 살짝 파란 배경 */
+  /* background: #e0f0ff; 배경색 넣을지 고민중 */
 }
 .menu a span { font-size: 14px; color: #888; font-weight: normal; }
+
