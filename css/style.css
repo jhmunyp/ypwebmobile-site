@@ -113,7 +113,7 @@ h1 {
 .menu a:hover,
 .menu a:active {
   transform: translateY(-2%);
-  background: #fff; /* 호버 시 색 변화 제거 */
+  background: #fff; /* 호버 시 배경색 변화 제거 */
 }
 
 .menu a span {
