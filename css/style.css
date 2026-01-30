@@ -1,6 +1,5 @@
-* { box-sizing: border-box; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  margin: 0;
   font-family: Arial, sans-serif;
   background: #f2f4f7;
 }
@@ -32,19 +31,20 @@ h1 { font-size: 22px; margin-bottom: 6px; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.2s ease; /* 배경색 제거 */
+  transition: transform 0.2s ease;
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
 
-  -webkit-tap-highlight-color: transparent; /* 모바일 터치 하이라이트 제거 */
-  -webkit-touch-callout: none;
+  /* 모바일 터치 하이라이트 완전히 제거 */
+  -webkit-tap-highlight-color: transparent; /* iOS, Android Chrome */
+  -webkit-touch-callout: none;              /* iOS 길게 터치 메뉴 방지 */
+  touch-action: manipulation;               /* 터치 안정화 */
+  user-select: none;                        /* 텍스트 선택 방지 */
 }
 
-.menu a:hover {
-  transform: translateY(-2px); /* 살짝 위로 띄움만 */
+.menu a:hover,
+.menu a:active {
+  transform: translateY(-2px); /* 살짝 위로 띄움 */
+  background: #fff;             /* 호버/터치 시 배경색 변화 없음 */
 }
 
-.menu a span {
-  font-size: 14px;
-  color: #888;
-  font-weight: normal;
-}
+.menu a span { font-size: 14px; color: #888; font-weight: normal; }
