@@ -19,6 +19,8 @@ body {
 h1 { font-size: 22px; margin-bottom: 6px; }
 .subtitle { font-size: 14px; color: #666; margin-bottom: 20px; }
 .menu { display: flex; flex-direction: column; gap: 14px; }
+
+/* 메뉴 버튼 */
 .menu a {
   background: #fff;
   border-radius: 14px;
@@ -30,12 +32,19 @@ h1 { font-size: 22px; margin-bottom: 6px; }
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: all 0.2s ease;
+  transition: transform 0.2s ease; /* 배경색 제거 */
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.menu a:hover {
-  transform: translateY(-2px);
-  /* background: #e0f0ff; 배경색 넣을지 고민중 */
-}
-.menu a span { font-size: 14px; color: #888; font-weight: normal; }
 
+  -webkit-tap-highlight-color: transparent; /* 모바일 터치 하이라이트 제거 */
+  -webkit-touch-callout: none;
+}
+
+.menu a:hover {
+  transform: translateY(-2px); /* 살짝 위로 띄움만 */
+}
+
+.menu a span {
+  font-size: 14px;
+  color: #888;
+  font-weight: normal;
+}
