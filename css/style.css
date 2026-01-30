@@ -1,4 +1,4 @@
-/* ===== 나눔글꼴 로컬 임베딩 ===== */
+/* ===== 폰트 임베딩 ===== */
 @font-face {
   font-family: 'Nanum Gothic';
   src: url('../fonts/NanumGothic.woff2') format('woff2');
@@ -6,139 +6,64 @@
   font-style: normal;
 }
 
-:root {
-  font-size: 16px; /* 1rem = 16px 기준 */
-}
-
+:root { font-size: 16px; }
 body {
   font-family: 'Nanum Gothic', Arial, sans-serif;
-  background: #f2f4f7;
   margin: 0;
+  background: #f2f4f7;
 }
 
-/* ===== 배경 이미지 ===== */
+/* ===== 배경 ===== */
 .bg {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  position: fixed; top:0; left:0;
+  width:100%; height:100%;
   background: url('../images/mobile-bg.jpg') no-repeat center top;
-  background-size: cover;
-  z-index: -1;
+  background-size: cover; z-index: -1;
 }
 
 /* ===== 배너 ===== */
 .slider {
+  width:100%;
+  aspect-ratio: 16/9;
+  overflow:hidden;
   position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 14rem; /* 배너 높이 */
 }
-
-.slides {
-  display: flex;
-  transition: transform 0.4s ease;
-}
-
-.slide {
-  min-width: 100%;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+.slides { display:flex; transition: transform 0.4s ease; }
+.slide { min-width:100%; }
+.slide img { width:100%; height:100%; object-fit:cover; }
 
 .dots {
-  position: absolute;
-  bottom: 0.5rem;
-  width: 100%;
-  text-align: center;
+  position:absolute; bottom:0.5rem; width:100%; text-align:center;
 }
-
 .dot {
-  display: inline-block;
-  width: 0.5rem;
-  height: 0.5rem;
-  margin: 0 0.25rem;
-  background: rgba(255,255,255,0.5);
-  border-radius: 50%;
+  display:inline-block; width:0.5rem; height:0.5rem; margin:0 0.25rem;
+  background:rgba(255,255,255,0.5); border-radius:50%;
 }
-
-.dot.active {
-  background: #fff;
-}
+.dot.active { background:#fff; }
 
 /* ===== 메뉴 ===== */
-.container {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+.container { padding:1rem; display:flex; flex-direction:column; align-items:center; }
+h1 { font-size:1.4rem; margin-bottom:0.25rem; }
+.subtitle { font-size:0.875rem; color:#666; margin-bottom:1rem; }
 
-h1 {
-  font-size: 1.4rem;
-  margin-bottom: 0.25rem;
-}
-
-.subtitle {
-  font-size: 0.875rem;
-  color: #666;
-  margin-bottom: 1rem;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  width: 100%;
-  max-width: 28rem; /* 너무 커지지 않게 제한 */
-}
-
+.menu { display:flex; flex-direction:column; gap:0.5rem; width:90%; max-width:28rem; }
 .menu a {
-  width: 100%;
-  background: #fff;
-  border-radius: 0.875rem;
-  padding: 1.2rem 1rem;
-  text-decoration: none;
-  color: #222;
-  font-size: 1.125rem;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  width:100%; padding:5% 4%;
+  background:#fff; color:#222; text-decoration:none;
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:1.125rem; font-weight:bold; border-radius:1rem;
+  box-shadow:0 0.25rem 0.75rem rgba(0,0,0,0.08);
   transition: transform 0.2s ease;
-  box-shadow: 0 0.25rem 0.75rem rgba(0,0,0,0.08);
-
-  /* 모바일 터치 하이라이트 제거 */
-  -webkit-tap-highlight-color: transparent;
-  -webkit-touch-callout: none;
-  touch-action: manipulation;
-  user-select: none;
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout:none; touch-action: manipulation; user-select:none;
 }
+.menu a:hover, .menu a:active { transform: translateY(-0.2rem); background:#fff; }
+.menu a span { font-size:0.875rem; color:#888; font-weight:normal; }
 
-.menu a:hover,
-.menu a:active {
-  transform: translateY(-0.2rem); /* 살짝 띄우기 */
-  background: #fff; /* 호버 시 색 변화 제거 */
+/* ===== 반응형 ===== */
+@media (max-width:360px) {
+  h1{font-size:1.2rem;} .subtitle{font-size:0.75rem;} .menu a{font-size:1rem;}
 }
-
-.menu a span {
-  font-size: 0.875rem;
-  color: #888;
-  font-weight: normal;
-}
-
-/* ===== 반응형 텍스트 (선택 사항) ===== */
-@media (max-width: 360px) {
-  h1 { font-size: 1.2rem; }
-  .subtitle { font-size: 0.75rem; }
-  .menu a { font-size: 1rem; padding: 1rem 0.8rem; }
-}
-
-@media (min-width: 480px) {
-  .menu a { font-size: 1.25rem; padding: 1.4rem 1.2rem; }
+@media (min-width:480px) {
+  .menu a{font-size:1.25rem;}
 }
