@@ -1,6 +1,6 @@
 // ===== 배너 슬라이드 =====
 const slider = document.getElementById('slider');
-const slides = document.getElementById('slides');
+const slides = document.querySelector('.slides');
 const dots = document.querySelectorAll('.dot');
 const total = dots.length;
 
@@ -22,7 +22,6 @@ function startAuto() {
     showSlide(index);
   }, 3000);
 }
-
 startAuto();
 
 // 모바일 스와이프
@@ -30,7 +29,6 @@ slider.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
   clearInterval(timer);
 });
-
 slider.addEventListener('touchend', e => {
   const diff = startX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 50) {
@@ -42,11 +40,11 @@ slider.addEventListener('touchend', e => {
   startAuto();
 });
 
-// ===== 메뉴 버튼 액션 =====
-document.querySelectorAll('.menu-item').forEach(button => {
+// ===== 메뉴 버튼 클릭 (JS 이벤트) =====
+document.querySelectorAll('.menu-item:not(.no-js)').forEach(button => {
   button.addEventListener('click', e => {
     e.preventDefault();
     const link = button.dataset.link;
-    location.href = link;
+    if (link) location.href = link;
   });
 });
