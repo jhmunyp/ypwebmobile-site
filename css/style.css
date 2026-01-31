@@ -131,9 +131,9 @@ h1 {
   transform: scale(1.05);
 }
 
-/* BI 박스 터치 확대 (필요 시 적용) */
-/*
+/* BI 박스 터치 확대 */
+
 .bi-box:active {
   transform: scale(1.05);
 }
-*/
+
