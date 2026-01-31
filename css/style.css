@@ -7,13 +7,13 @@ a, button { -webkit-tap-highlight-color:transparent; }
 .wrapper { position:relative; display:flex; flex-direction:column; min-height:100%; background:#fff; }
 
 /* ===== 슬라이더 ===== */
-.slider-wrapper { width:100%; position:relative; line-height:0; }
+.slider-wrapper { width:100%; line-height:0; }
 .slider { width:100%; overflow:hidden; }
 .slides { display:flex; transition: transform 0.4s ease; }
 .slide { min-width:100%; }
 .slide img { width:100%; display:block; }
 
-/* ===== 슬라이더 바로 아래 텍스트 ===== */
+/* ===== 텍스트 ===== */
 .subtitle-container { width:100%; text-align:center; margin-top:2vw; }
 .subtitle { font-size:3.5vw; color:#555; line-height:1.2; }
 
@@ -23,7 +23,7 @@ a, button { -webkit-tap-highlight-color:transparent; }
 .menu a {
   flex:0 0 calc(50% - 2%);
   min-width:0;
-  padding:4vw 2vw;
+  padding:4vw 3vw;
   background:linear-gradient(145deg,#fff,#eee);
   color:#000;
   text-decoration:none;
@@ -39,6 +39,7 @@ a, button { -webkit-tap-highlight-color:transparent; }
 }
 .menu a.is-active { transform: scale(0.97); box-shadow:0 4px 10px rgba(0,0,0,0.2); }
 
-/* ===== CI/BI 버튼 기본 ===== */
+/* ===== CI/BI 버튼 ===== */
 .ci-box, .bi-box { position:fixed; left:50%; transform:translateX(-50%); touch-action:manipulation; transition: transform 0.15s ease; z-index:10; }
-.ci-box img, .bi-box img { width:100%; display:block; }
+.ci-box img { width:90vw; max-width:400px; display:block; }
+.bi-box img { width:70vw; max-width:300px; display:block; }
