@@ -1,4 +1,4 @@
-/* ===== 기본 설정 ===== */
+/* ===== 기본 초기화 ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,7 +8,7 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* 스크롤 절대 방지 */
+  overflow: hidden; /* 스크롤 방지 */
   background: #1c1c1c;
   font-family: 'Nanum Gothic', sans-serif;
 }
@@ -16,20 +16,19 @@ html, body {
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh; /* 화면 전체 높이 사용 */
+  height: 100vh; /* 전체 화면 높이 고정 */
 }
 
-/* ===== 상단 슬라이더 ===== */
+/* ===== 상단 배너 ===== */
 .slider {
   width: 100%;
-  aspect-ratio: 21 / 9;
+  aspect-ratio: 21 / 9; /* 가로세로 비율 유지 */
   flex-shrink: 0;
   overflow: hidden;
 }
 
 .slides {
   display: flex;
-  height: 100%;
 }
 
 .slide img {
@@ -38,18 +37,19 @@ html, body {
   object-fit: cover;
 }
 
-/* ===== 컨텐츠 컨테이너 ===== */
+/* ===== 중앙 컨테이너 ===== */
 .container {
-  flex: 1; /* 남은 화면 공간을 모두 차지 */
+  flex: 1; /* 남은 공간을 모두 차지 */
   display: flex;
   flex-direction: column;
-  justify-content: space-between; /* 요소들을 위, 중간, 아래로 분산 */
+  justify-content: center; /* 세로축 기준 중앙 정렬 */
   align-items: center;
-  padding-top: 5vh;
+  padding: 2vh 0; /* 상하 여백 */
 }
 
-.content-top {
+.content-header {
   text-align: center;
+  margin-bottom: 2vh;
 }
 
 h1 {
@@ -59,31 +59,30 @@ h1 {
 }
 
 .subtitle {
-  font-size: 3.8vw;
+  font-size: 3.5vw;
   color: #aaa;
-  margin-bottom: 2vh;
 }
 
-/* ===== 메뉴 영역 ===== */
+/* ===== 메뉴 버튼 영역 ===== */
 .menu {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.2vh; /* 기기 높이에 따라 간격 자동 조절 */
+  gap: 1.2vh; /* 버튼 사이 간격 */
   align-items: center;
-  padding: 0 5vw;
+  /* 버튼과 하단 초록색 박스 사이의 여백 확보 */
+  margin-bottom: 2vh; 
 }
 
 .menu a {
-  width: 100%;
-  max-width: 500px;
-  padding: 3.5vw 5vw;
-  background: #222;
+  width: 88%;
+  padding: 3.8vw 5vw; /* 높이 비율 조절 */
+  background: #252525;
   color: #fff;
   text-decoration: none;
   font-size: 4.2vw;
   font-weight: bold;
-  border-radius: 2vw;
+  border-radius: 2.5vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,13 +91,12 @@ h1 {
 
 .menu a span {
   color: #666;
-  font-size: 4vw;
 }
 
-/* ===== 하단 초록색 CI 박스 (정중앙 정렬 및 하단 고정) ===== */
+/* ===== 하단 고정 CI 박스 ===== */
 .ci-box {
   width: 100%;
-  height: 15vh; /* 하단 영역 높이 확보 */
+  height: 12vh; /* 하단 박스 높이 고정 */
   background-color: #333B18;
   display: flex;
   justify-content: center; /* 가로 중앙 */
@@ -108,7 +106,7 @@ h1 {
 }
 
 .ci-box img {
-  height: 35%; /* 박스 높이 대비 로고 크기 조정 */
+  height: 40%; /* 로고 이미지 크기 적정화 */
   width: auto;
   object-fit: contain;
 }
