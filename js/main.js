@@ -2,7 +2,6 @@
 const slides = document.querySelector('.slides');
 let index = 0;
 
-// 슬라이드 표시
 function showSlide(i) {
   slides.style.transform = `translateX(-${i * 100}%)`;
 }
@@ -33,9 +32,9 @@ slider.addEventListener('touchend', e => {
 
 // ===== 메뉴 터치 효과 + 클릭 이동 =====
 document.querySelectorAll('.menu a').forEach(btn => {
-  // 눌린 버튼만 살짝 올라가게
+  // 눌린 버튼만 올라가도록
   btn.addEventListener('touchstart', e => {
-    e.stopPropagation(); // 다른 버튼으로 이벤트 전파 차단
+    e.stopPropagation();
     btn.style.transform = 'translateY(-0.5vw)';
   });
   btn.addEventListener('touchend', e => {
@@ -43,7 +42,7 @@ document.querySelectorAll('.menu a').forEach(btn => {
     btn.style.transform = 'translateY(0)';
   });
 
-  // 메뉴 클릭 이동
+  // 클릭 이동
   btn.addEventListener('click', e => {
     e.preventDefault();
     location.href = btn.getAttribute('href');
