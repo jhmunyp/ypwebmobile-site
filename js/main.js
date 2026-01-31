@@ -1,26 +1,20 @@
 // ===== 슬라이드 =====
-const slides = document.querySelector('.slides');
+const slides=document.querySelector('.slides');
 let index=0;
-function showSlide(i){ slides.style.transform = `translateX(-${i*100}%)`; }
-let autoInterval = setInterval(()=>{
-  index=(index+1)%slides.children.length;
-  showSlide(index);
-},3000);
+function showSlide(i){ slides.style.transform=`translateX(-${i*100}%)`; }
+let autoInterval=setInterval(()=>{ index=(index+1)%slides.children.length; showSlide(index); },3000);
 
 // ===== 터치 스와이프 =====
 let startX=0,isTouching=false;
 const slider=document.querySelector('.slider');
 slider.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; isTouching=true; clearInterval(autoInterval); });
-slider.addEventListener('touchmove',e=>{ if(isTouching) e.preventDefault(); },{passive:false});
+slider.addEventListener('touchmove',e=>{ if(isTouching)e.preventDefault(); },{passive:false});
 slider.addEventListener('touchend',e=>{
   const diff=startX - e.changedTouches[0].clientX;
   if(Math.abs(diff)>50) index=diff>0?(index+1)%slides.children.length:(index-1+slides.children.length)%slides.children.length;
   showSlide(index);
   isTouching=false;
-  autoInterval=setInterval(()=>{
-    index=(index+1)%slides.children.length;
-    showSlide(index);
-  },3000);
+  autoInterval=setInterval(()=>{ index=(index+1)%slides.children.length; showSlide(index); },3000);
 });
 
 // ===== 메뉴 버튼 터치 =====
@@ -35,24 +29,27 @@ function updateCiBiPosition(){
   const biBox=document.querySelector('.bi-box');
 
   const viewportHeight=window.innerHeight;
+
   const ciHeight=ciBox.offsetHeight;
   const biHeight=biBox.offsetHeight;
 
-  const bottomMargin = viewportHeight*0.02; // 2vw
-  ciBox.style.bottom = `${bottomMargin}px`;
-  biBox.style.bottom = `${bottomMargin + ciHeight + viewportHeight*0.01}px`; // 1vw margin
+  const bottomMargin=viewportHeight*0.02; // 2vw
+  ciBox.style.bottom=`${bottomMargin}px`;
+  biBox.style.bottom=`${bottomMargin + ciHeight + viewportHeight*0.01}px`; // 1vw margin
 }
+
+// 이미지 로드 후 계산
 window.addEventListener('load', updateCiBiPosition);
 window.addEventListener('resize', updateCiBiPosition);
 window.addEventListener('orientationchange', updateCiBiPosition);
 
 // ===== BI/CI 터치 확대 =====
-document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
+document.querySelectorAll('.bi-box,.ci-box').forEach(box=>{
   box.addEventListener('touchstart',()=>{ box.style.transform='scale(1.05)'; });
   box.addEventListener('touchend',()=>{ box.style.transform='scale(1)'; });
 });
 
-// ===== 슬라이더 높이 동적 조정 (빈 공간 제거) =====
+// ===== 슬라이더 높이 동적 조정 =====
 const sliderWrapper=document.querySelector('.slider-wrapper');
 function adjustSliderHeight(){
   const firstImg=sliderWrapper.querySelector('img');
