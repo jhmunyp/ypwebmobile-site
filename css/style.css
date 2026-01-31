@@ -10,23 +10,22 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* 스크롤 제거 */
-  background-color: #fff; /* 페이지 전체 흰색 */
+  overflow: hidden;
+  background-color: #fff !important; /* 무조건 흰색 */
   font-family: sans-serif;
   color: #000;
 }
 
-a, button {
-  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
-}
-
-/* ===== wrapper ===== */
 .wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100%;
   position: relative;
-  background-color: #fff; /* 흰색 배경 고정 */
+  background-color: #fff !important; /* 흰색 유지 */
+}
+
+a, button {
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ===== 슬라이더 ===== */
@@ -62,7 +61,7 @@ a, button {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 2vw; /* 슬라이드와 메뉴 간격 */
+  gap: 2vw;
 }
 
 h1 {
@@ -90,8 +89,8 @@ h1 {
 .menu a {
   width: 90%;
   padding: 4vw;
-  background: #222; /* 버튼 배경 */
-  color: #fff;       /* 버튼 글자 */
+  background: #222;
+  color: #fff;
   text-decoration: none;
   font-size: 4vw;
   font-weight: bold;
@@ -107,30 +106,30 @@ h1 {
   transform: translateY(-0.5vw);
 }
 
-/* ===== CI 박스 ===== */
+/* ===== CI 박스 (이미지만) ===== */
 .ci-box {
   position: fixed;
   left: 0;
   bottom: 0;
   width: 100%;
   height: clamp(60px, 15vw, 120px);
-  background-color: #4CAF50; /* 선명한 초록 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom, 0);
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-  box-shadow: 0 -2px 8px rgba(0,0,0,0.3);
+  transition: transform 0.15s ease;
 }
 
 .ci-box img {
-  max-width: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   pointer-events: none;
 }
 
-/* 터치 시 살짝 확대/축소 */
+/* 터치 시 확대/축소 */
 .ci-box:active {
   transform: scale(1.05);
 }
