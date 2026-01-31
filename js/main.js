@@ -29,20 +29,37 @@ document.querySelectorAll('.menu a').forEach(btn=>{
   btn.addEventListener('touchend',()=>{ btn.style.transform='scale(1)'; btn.classList.remove('is-active'); });
 });
 
+// ===== CI/BI 위치 자동 계산 =====
+function updateCiBiPosition(){
+  const ciBox=document.querySelector('.ci-box');
+  const biBox=document.querySelector('.bi-box');
+
+  const viewportHeight=window.innerHeight;
+  const ciHeight=ciBox.offsetHeight;
+  const biHeight=biBox.offsetHeight;
+
+  const bottomMargin = viewportHeight*0.02; // 2vw
+  ciBox.style.bottom = `${bottomMargin}px`;
+  biBox.style.bottom = `${bottomMargin + ciHeight + viewportHeight*0.01}px`; // 1vw margin
+}
+window.addEventListener('load', updateCiBiPosition);
+window.addEventListener('resize', updateCiBiPosition);
+window.addEventListener('orientationchange', updateCiBiPosition);
+
 // ===== BI/CI 터치 확대 =====
 document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
-  box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
-  box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
+  box.addEventListener('touchstart',()=>{ box.style.transform='scale(1.05)'; });
+  box.addEventListener('touchend',()=>{ box.style.transform='scale(1)'; });
 });
 
-// ===== 슬라이더 높이 동적 계산 =====
+// ===== 슬라이더 높이 동적 조정 (빈 공간 제거) =====
 const sliderWrapper=document.querySelector('.slider-wrapper');
 function adjustSliderHeight(){
-  const firstImg = sliderWrapper.querySelector('img');
+  const firstImg=sliderWrapper.querySelector('img');
   if(firstImg.complete){
     sliderWrapper.style.height=firstImg.getBoundingClientRect().height+'px';
   } else {
-    firstImg.onload = ()=> sliderWrapper.style.height=firstImg.getBoundingClientRect().height+'px';
+    firstImg.onload=()=> sliderWrapper.style.height=firstImg.getBoundingClientRect().height+'px';
   }
 }
 window.addEventListener('load',adjustSliderHeight);
