@@ -31,8 +31,8 @@ document.querySelectorAll('.menu a').forEach(btn=>{
 
 // ===== BI/CI 터치 확대 =====
 document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
-  box.addEventListener('touchstart',()=>{ box.style.transform='scale(1.05)'; });
-  box.addEventListener('touchend',()=>{ box.style.transform='scale(1)'; });
+  box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
+  box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
 });
 
 // ===== 슬라이더 높이 동적 계산 =====
