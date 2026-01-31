@@ -10,7 +10,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  overflow: hidden; /* 스크롤 제거 */
   background-color: #fff !important; /* 무조건 흰색 */
   font-family: sans-serif;
   color: #000;
@@ -21,11 +21,11 @@ html, body {
   flex-direction: column;
   min-height: 100%;
   position: relative;
-  background-color: #fff !important; /* 흰색 유지 */
+  background-color: #fff !important;
 }
 
 a, button {
-  -webkit-tap-highlight-color: transparent;
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
 }
 
 /* ===== 슬라이더 ===== */
@@ -61,7 +61,7 @@ a, button {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 2vw;
+  gap: 2vw; /* 슬라이드와 메뉴 간격 */
 }
 
 h1 {
@@ -120,16 +120,19 @@ h1 {
   padding-bottom: env(safe-area-inset-bottom, 0);
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.15s ease;
+  background: none; /* 네모 박스 제거 */
+  box-shadow: none; /* 그림자 제거 */
 }
 
 .ci-box img {
-  width: 100%;
+  width: auto;
+  max-width: 80%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
   pointer-events: none;
 }
 
-/* 터치 시 확대/축소 */
+/* 터치 확대/축소 */
 .ci-box:active {
   transform: scale(1.05);
 }
