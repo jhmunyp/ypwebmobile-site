@@ -4,7 +4,7 @@ html, body { width:100%; height:100%; font-family:sans-serif; color:#000; -webki
 a, button { -webkit-tap-highlight-color: transparent; }
 
 /* ===== wrapper ===== */
-.wrapper { display:flex; flex-direction:column; min-height:100%; padding:2vw 0; background:#fff; }
+.wrapper { display:flex; flex-direction:column; min-height:100%; background:#fff; }
 
 /* ===== 슬라이더 ===== */
 .slider { width:100%; aspect-ratio:21/9; overflow:hidden; flex-shrink:0; position:relative; }
@@ -13,25 +13,56 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .slide img { width:100%; height:100%; object-fit:cover; display:block; }
 
 /* ===== 슬라이드 아래 텍스트 ===== */
-.subtitle-container { width:100%; text-align:center; padding:1.5vw 4vw 1vw 4vw; }
-.subtitle { font-size:3.5vw; color:#555; margin:0 auto; line-height:1.3; }
+.subtitle-container {
+  width: 100%;
+  text-align: center;
+  padding: 0.5vw 4vw 0 4vw; /* 위쪽 붙임 */
+  margin-top: -1vw; /* 슬라이드 바로 붙임 */
+}
+.subtitle {
+  font-size: 3.5vw;
+  color: #555;
+  line-height: 1.3;
+  margin: 0 auto;
+}
 
 /* ===== 메뉴 ===== */
 .container { width:100%; padding:0 4vw; display:flex; flex-direction:column; align-items:center; }
-.menu { display:flex; flex-wrap:wrap; margin:0 -1vw; justify-content:space-between; margin-top:2vw; margin-bottom:2vw; }
+.menu {
+  display:flex;
+  flex-wrap:wrap;
+  margin:0 -1vw;
+  justify-content:space-between;
+  margin-top:2vw;
+  margin-bottom:2vw;
+}
 .menu a {
-  width:48%; margin:1vw 1vw; padding:4vw 2vw; background:linear-gradient(145deg, #fff, #eee);
-  color:#000; text-decoration:none; font-size:3.2vw; font-weight:bold; border-radius:2vw;
-  display:flex; justify-content:space-between; align-items:center;
+  width:46%; /* 버튼 간격 넓힘 */
+  margin:2vw 1vw;
+  padding:4vw 2vw;
+  background:linear-gradient(145deg, #fff, #eee);
+  color:#000;
+  text-decoration:none;
+  font-size:3.2vw;
+  font-weight:bold;
+  border-radius:2vw;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
   transition: transform 0.1s, box-shadow 0.2s;
   box-shadow:0 2px 5px rgba(0,0,0,0.1);
-  flex-shrink:0; touch-action: manipulation;
+  flex-shrink:0;
+  touch-action: manipulation;
 }
 .menu a.is-active { transform:scale(0.97); box-shadow:0 4px 10px rgba(0,0,0,0.2); }
 
 /* ===== BI + CI ===== */
 .bi-box, .ci-box {
-  position:absolute; left:0; width:100%; pointer-events:auto;
-  touch-action: manipulation; transition: transform 0.15s ease;
+  position:absolute;
+  left:0;
+  width:100%;
+  pointer-events:auto;
+  touch-action: manipulation;
+  transition: transform 0.15s ease;
 }
 .bi-box img, .ci-box img { display:block; width:100%; height:auto; object-fit:contain; }
