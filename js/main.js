@@ -46,3 +46,19 @@ document.querySelectorAll('.menu a').forEach(btn => {
     btn.classList.remove('is-active');
   });
 });
+
+// ===== CI 이미지 하단 위치 제어 (갤럭시 인터넷 대응) =====
+const ciBox = document.querySelector('.ci-box');
+
+function updateCiPosition() {
+  const viewportHeight = window.innerHeight;
+  const ciHeight = ciBox.offsetHeight;
+  ciBox.style.top = (viewportHeight - ciHeight) + 'px';
+}
+
+// 초기 위치
+updateCiPosition();
+
+// 리사이즈/회전 대응
+window.addEventListener('resize', updateCiPosition);
+window.addEventListener('orientationchange', updateCiPosition);
