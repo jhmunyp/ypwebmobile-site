@@ -26,8 +26,4 @@ document.querySelectorAll('.menu a').forEach(btn=>{
 document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
   box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
   box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
-  box.addEventListener('click', e=>{
-    const link = box.querySelector('img').dataset.href;
-    if(link) window.location.href = link;
-  });
 });
