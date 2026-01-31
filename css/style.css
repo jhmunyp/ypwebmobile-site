@@ -112,14 +112,15 @@ h1 {
   bottom: 0;
   width: 100%;
   height: clamp(60px, 15vw, 120px);
-  background-color: #333b1d;
+  background-color: #4CAF50; /* 선명한 초록 */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100;
   padding-bottom: env(safe-area-inset-bottom, 0);
   -webkit-tap-highlight-color: transparent;
-  transition: transform 0.15s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: 0 -2px 8px rgba(0,0,0,0.3);
 }
 
 .ci-box img {
@@ -127,3 +128,7 @@ h1 {
   pointer-events: none;
 }
 
+/* 터치 시 살짝 확대/축소 */
+.ci-box:active {
+  transform: scale(1.05);
+}
