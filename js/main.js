@@ -4,16 +4,14 @@ const totalSlides = slides.children.length;
 let index = 0;
 let autoInterval;
 
-if (totalSlides > 1) {  // 1장일 땐 슬라이드 비활성
+if (totalSlides > 1) {
   startAutoSlide();
 }
 
-// 슬라이드 이동 함수
 function showSlide(i) {
   slides.style.transform = `translateX(-${i * 100}%)`;
 }
 
-// 자동 슬라이드 시작
 function startAutoSlide() {
   clearInterval(autoInterval);
   autoInterval = setInterval(() => {
@@ -22,7 +20,7 @@ function startAutoSlide() {
   }, 3000);
 }
 
-// ===== 스와이프 처리 =====
+// ===== 스와이프 =====
 let startX = 0;
 const slider = document.querySelector('.slider');
 
@@ -32,7 +30,7 @@ slider.addEventListener('touchstart', e => {
 });
 
 slider.addEventListener('touchmove', e => {
-  e.preventDefault(); // iOS 화면 흔들림 방지
+  e.preventDefault();
 }, { passive: false });
 
 slider.addEventListener('touchend', e => {
@@ -46,13 +44,18 @@ slider.addEventListener('touchend', e => {
   startAutoSlide();
 });
 
-// ===== 메뉴 터치 효과 =====
+// ===== 메뉴 터치 =====
 document.querySelectorAll('.menu a').forEach(btn => {
   btn.addEventListener('touchstart', () => btn.classList.add('is-active'));
   btn.addEventListener('touchend', () => btn.classList.remove('is-active'));
 });
 
-// ===== 페이지 비활성 시 자동슬라이드 정지 =====
+// ===== CI 박스 터치 효과 =====
+const ciBox = document.querySelector('.ci-box');
+ciBox.addEventListener('touchstart', () => ciBox.style.transform = 'scale(1.05)');
+ciBox.addEventListener('touchend', () => ciBox.style.transform = 'scale(1)');
+
+// ===== 페이지 숨김 시 자동슬라이드 정지 =====
 document.addEventListener('visibilitychange', () => {
   document.hidden ? clearInterval(autoInterval) : startAutoSlide();
 });
