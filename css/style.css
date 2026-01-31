@@ -1,99 +1,29 @@
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 100%; height: 100%; overflow: hidden; background: #1c1c1c; font-family: 'Nanum Gothic'; }
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* 전체 스크롤 차단 */
-  background: #1c1c1c;
-}
+.wrapper { display: flex; flex-direction: column; height: 100vh; }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-}
+/* 슬라이더 영역 - 하단 공백 제거 */
+.slider { width: 100%; height: 25vh; overflow: hidden; position: relative; flex-shrink: 0; }
+.slides { display: flex; width: 300%; height: 100%; transition: transform 0.4s ease-out; }
+.slide { width: 33.3333%; height: 100%; }
+.slide img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-/* ===== 상단 배너: 공백 제거를 위해 높이 최적화 ===== */
-.slider {
-  width: 100%;
-  aspect-ratio: 21 / 10; /* 이미지 비율에 맞춰 조정 (공백 발생 시 숫자 조절) */
-  flex-shrink: 0;
-  overflow: hidden;
-  position: relative;
-}
-
-.slides {
-  display: flex;
-  height: 100%;
-}
-
-.slide {
-  min-width: 100%;
-  height: 100%;
-}
-
-.slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* 이미지가 꽉 차게 */
-  display: block;    /* 하단 미세 공백 제거 */
-}
-
-/* ===== 메뉴 영역: 중앙 배치 ===== */
-.container {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #1c1c1c;
-}
-
-.content-header {
-  margin-bottom: 2vh;
-  text-align: center;
-}
-
+/* 메뉴 컨테이너 - 중앙 정렬 */
+.container { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0 5vw; }
 h1 { font-size: 5.5vw; color: #fff; margin-bottom: 1vh; }
-.subtitle { font-size: 3.5vw; color: #aaa; }
+.subtitle { font-size: 3.5vw; color: #aaa; margin-bottom: 3vh; }
 
-.menu {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 1.2vh;
-  align-items: center;
+.menu { width: 100%; display: flex; flex-direction: column; gap: 1.2vh; }
+.menu a { 
+  width: 100%; padding: 4vw 5vw; background: #222; color: #fff; 
+  text-decoration: none; border-radius: 2.5vw; display: flex; 
+  justify-content: space-between; font-weight: bold; transition: 0.1s; 
 }
 
-.menu a {
-  width: 88%;
-  padding: 3.8vw 5vw;
-  background: #252525;
-  color: #fff;
-  text-decoration: none;
-  font-size: 4.2vw;
-  font-weight: bold;
-  border-radius: 2.5vw;
-  display: flex;
-  justify-content: space-between;
+/* 하단 초록 박스 - 정중앙 */
+.ci-box { 
+  width: 100%; height: 12vh; background: #333B18; 
+  display: flex; justify-content: center; align-items: center; flex-shrink: 0;
 }
-
-/* ===== 하단 CI 박스: 바닥에 딱 붙임 ===== */
-.ci-box {
-  width: 100%;
-  height: 10vh; /* 높이를 조금 줄여 여백 확보 */
-  background-color: #333B18;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.ci-box img {
-  height: 35%;
-  width: auto;
-}
+.ci-box img { height: 35%; width: auto; }
