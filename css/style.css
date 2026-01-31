@@ -52,6 +52,7 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; }
   box-shadow: 0 1vw 3vw rgba(0,0,0,0.08);
   transition: transform 0.15s ease;
   -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
 }
 
 .menu a span { font-size: 3vw; color: #888; font-weight: normal; }
