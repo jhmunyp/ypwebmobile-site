@@ -12,7 +12,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   aspect-ratio:21/9;
   overflow:hidden;
   position:relative;
-  line-height:0; /* 밑 공백 제거 */
+  line-height:0; /* 공백 제거 */
 }
 .slides { display:flex; transition: transform 0.4s ease; }
 .slide { min-width:100%; }
@@ -43,13 +43,13 @@ a, button { -webkit-tap-highlight-color: transparent; }
 .container { width:100%; padding:0 4vw; display:flex; flex-direction:column; align-items:center; }
 .menu {
   display:flex;
-  flex-wrap:wrap;          /* 2행 안정화 */
+  flex-wrap:wrap;         
   justify-content: space-between;
-  gap:3vw;
+  gap:4%;           /* 버튼 열 여유 */
   margin:2vw 0;
 }
 .menu a {
-  flex:0 0 48%;            /* 2열 고정 */
+  flex:0 0 calc(50% - 2%);  /* 2행 안정화, 모든 브라우저 rounding 대응 */
   padding:4vw 2vw;
   background: linear-gradient(145deg,#fff,#eee);
   color:#000;
