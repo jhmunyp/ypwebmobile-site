@@ -10,7 +10,7 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: auto; /* 갤럭시 인터넷 fixed 문제 해결 */
+  overflow: auto; /* fixed 문제 방지 */
   background-color: #fff;
   font-family: sans-serif;
   color: #000;
@@ -111,16 +111,13 @@ h1 {
 
 /* ===== CI 박스 ===== */
 .ci-box {
-  position: fixed;
+  position: absolute; /* JS로 위치 제어 */
   left: 0;
-  bottom: 0;
   width: 100%;
-  margin: 0;
-  padding: 0;
-  z-index: 999;
   transition: transform 0.15s ease;
   background: none;
   box-shadow: none;
+  z-index: 9999;
 }
 
 .ci-box img {
