@@ -44,7 +44,7 @@ slider.addEventListener('touchend', e => {
   }, 3000);
 });
 
-// ===== 메뉴 터치 효과 =====
+// ===== 메뉴 버튼 터치 효과 =====
 document.querySelectorAll('.menu a').forEach(btn => {
   btn.addEventListener('touchstart', () => {
     btn.style.transform = 'translateY(-0.5vw)';
@@ -56,30 +56,20 @@ document.querySelectorAll('.menu a').forEach(btn => {
   });
 });
 
-// ===== BI + CI 이미지 위치 제어 (메뉴와 겹치지 않도록) =====
+// ===== BI + CI 위치 제어 =====
 const ciBox = document.querySelector('.ci-box');
 const biBox = document.querySelector('.bi-box');
-const container = document.querySelector('.container');
-const menuButtons = container.querySelectorAll('.menu a');
 
 function updateBoxesPosition() {
   const viewportHeight = window.innerHeight;
   const ciHeight = ciBox.offsetHeight;
   const biHeight = biBox.offsetHeight;
 
-  // 메뉴 하단 계산 (마지막 버튼까지)
-  const lastButton = menuButtons[menuButtons.length - 1];
-  const lastButtonRect = lastButton.getBoundingClientRect();
-  const containerRect = container.getBoundingClientRect();
-  const menuBottom = containerRect.top + lastButtonRect.bottom - containerRect.top;
-
-  // CI 최하단
+  // CI 최하단 고정
   ciBox.style.top = (viewportHeight - ciHeight) + 'px';
 
-  // BI 박스: CI 바로 위, 메뉴 끝에서 최소 20px 떨어지도록
-  const biTop = viewportHeight - ciHeight - biHeight;
-  const minTop = menuBottom + 20;
-  biBox.style.top = Math.max(biTop, minTop) + 'px';
+  // BI 바로 위 (CI 위에 붙음)
+  biBox.style.top = (viewportHeight - ciHeight - biHeight) + 'px';
 }
 
 // 초기 위치
