@@ -18,6 +18,7 @@ a, button {
   -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
 }
 
+/* ===== wrapper ===== */
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -53,16 +54,17 @@ a, button {
 .container {
   flex: 1;
   width: 100%;
-  padding: 4vw;
+  padding: 2vw 4vw 0 4vw;  /* 위 여백은 2vw, 아래는 0 */
   background: #1c1c1c;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;  /* 슬라이드 바로 아래부터 시작 */
   align-items: center;
+  gap: 2vw;  /* 슬라이드와 메뉴 간격 */
 }
 
-h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
-.subtitle { font-size: 3.5vw; color: #aaa; margin-bottom: 4vw; text-align: center; }
+h1 { font-size: 5vw; margin-bottom: 1vw; text-align: center; color: #fff; }
+.subtitle { font-size: 3.5vw; color: #aaa; margin-bottom: 3vw; text-align: center; }
 
 .menu {
   width: 100%;
@@ -94,7 +96,7 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
 
 /* ===== CI 박스 ===== */
 .ci-box {
-  position: fixed;        /* 화면 최하단 고정 */
+  position: fixed;               /* 화면 최하단 고정 */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -105,7 +107,7 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
   align-items: center;
   text-decoration: none;
   z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom, 0); /* iOS/안드로이드 안전 영역 */
+  padding-bottom: env(safe-area-inset-bottom, 0); /* 하단 안전 영역 */
 }
 
 .ci-box img {
