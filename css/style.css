@@ -16,16 +16,17 @@ html, body {
   color: #000;
 }
 
+a, button {
+  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+}
+
+/* ===== wrapper ===== */
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100%;
-  position: relative;
+  min-height: 100vh;
+  position: relative;  /* CI 박스 absolute 기준 */
   background-color: #fff !important;
-}
-
-a, button {
-  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
 }
 
 /* ===== 슬라이더 ===== */
@@ -109,30 +110,29 @@ h1 {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* ===== CI 박스 (이미지만, 최하단 고정) ===== */
+/* ===== CI 박스 (이미지만, 최하단 고정, 갤럭시 인터넷 대응) ===== */
 .ci-box {
-  position: fixed;
+  position: absolute; /* fixed → absolute로 변경 */
+  bottom: 0;
   left: 0;
-  bottom: 0;        /* 화면 최하단 고정 */
   width: 100%;
-  z-index: 100;
-  padding: 0;
   margin: 0;
-  -webkit-tap-highlight-color: transparent;
+  padding: 0;
   transition: transform 0.15s ease;
   background: none;
   box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .ci-box img {
-  width: 100%;       /* 가로 100% */
-  height: auto;      /* 비율 유지 */
-  display: block;    /* 공백 제거 */
+  display: block;
+  width: 100%;   /* 가로 전체 */
+  height: auto;  /* 비율 유지 */
   object-fit: contain;
   pointer-events: none;
 }
 
-/* 터치 확대/축소 */
+/* 터치 확대/축소 효과 */
 .ci-box:active {
   transform: scale(1.05);
 }
