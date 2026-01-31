@@ -31,3 +31,9 @@ document.querySelectorAll('.menu-item').forEach(btn=>{
     location.href=btn.dataset.link;
   });
 });
+
+// 페이지가 로드될 때 스크롤 맨 위로 이동
+window.addEventListener('pageshow', () => {
+  window.scrollTo(0, 0);
+});
+
