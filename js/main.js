@@ -23,7 +23,7 @@ document.querySelectorAll('.menu a').forEach(btn=>{
 });
 
 // ===== BI/CI 터치 확대 + 클릭 이동 =====
-[document.querySelector('.bi-box'), document.querySelector('.ci-box')].forEach(box=>{
+document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
   box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
   box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
   box.addEventListener('click', e=>{
