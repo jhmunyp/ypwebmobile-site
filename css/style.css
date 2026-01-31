@@ -10,23 +10,22 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* 스크롤 제거 */
-  background-color: #fff !important; /* 무조건 흰색 */
+  overflow: auto; /* 갤럭시 인터넷 fixed 문제 해결 */
+  background-color: #fff;
   font-family: sans-serif;
   color: #000;
 }
 
 a, button {
-  -webkit-tap-highlight-color: transparent; /* 터치 하이라이트 제거 */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ===== wrapper ===== */
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  position: relative;  /* CI 박스 absolute 기준 */
-  background-color: #fff !important;
+  min-height: 100%;
+  background-color: #fff;
 }
 
 /* ===== 슬라이더 ===== */
@@ -62,7 +61,7 @@ a, button {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 2vw; /* 슬라이드와 메뉴 간격 */
+  gap: 2vw;
 }
 
 h1 {
@@ -91,7 +90,7 @@ h1 {
 .menu a {
   width: 90%;
   padding: 4vw;
-  background: linear-gradient(145deg, #ffffff, #eeeeee); /* 흰색 → 옅은 회색 */
+  background: linear-gradient(145deg, #ffffff, #eeeeee);
   color: #000;
   text-decoration: none;
   font-size: 4vw;
@@ -110,31 +109,28 @@ h1 {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* ===== CI 박스 (이미지만, 최하단 고정, 갤럭시 인터넷 대응) ===== */
+/* ===== CI 박스 ===== */
 .ci-box {
-  position: fixed;   /* absolute → fixed로 변경 */
-  bottom: 0;
+  position: fixed;
   left: 0;
+  bottom: 0;
   width: 100%;
   margin: 0;
   padding: 0;
+  z-index: 999;
   transition: transform 0.15s ease;
   background: none;
   box-shadow: none;
-  -webkit-tap-highlight-color: transparent;
-  z-index: 100;
 }
 
 .ci-box img {
   display: block;
-  width: 100%;    /* 가로 전체 */
-  height: auto;   /* 비율 유지 */
+  width: 100%;
+  height: auto;
   object-fit: contain;
   pointer-events: none;
 }
 
-/* 터치 확대/축소 효과 */
 .ci-box:active {
   transform: scale(1.05);
 }
-
