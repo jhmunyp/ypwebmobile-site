@@ -1,29 +1,35 @@
-/* ===== 기본 ===== */
+/* ===== 기본 설정 ===== */
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body {
-  font-family: 'Nanum Gothic';
-  background: #000; /* body 배경 노출 방지용 */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* 스크롤 절대 방지 */
+  background: #1c1c1c;
+  font-family: 'Nanum Gothic', sans-serif;
 }
 
-/* ===== 슬라이더 ===== */
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* 화면 전체 높이 사용 */
+}
+
+/* ===== 상단 슬라이더 ===== */
 .slider {
   width: 100%;
   aspect-ratio: 21 / 9;
+  flex-shrink: 0;
   overflow: hidden;
 }
 
 .slides {
   display: flex;
-  transition: transform 0.4s ease;
-}
-
-.slide {
-  min-width: 100%;
+  height: 100%;
 }
 
 .slide img {
@@ -32,86 +38,77 @@ body {
   object-fit: cover;
 }
 
-/* ===== CI 띠 박스 (가로 100%, 패딩 무시) ===== */
-.ci-box {
-  width: 100vw;                 /* 화면 가로 꽉 */
-  height: 22vw;                 /* 세로 높이 */
-  background-color: #333B18;
-
-  margin-left: 50%;
-  transform: translateX(-50%);  /* container 패딩 무시 */
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  text-decoration: none;
-}
-
-.ci-box img {
-  max-width: 30%;
-  max-height: 30%;
-  object-fit: contain;
-  transition: transform 0.2s ease;
-}
-
-.ci-box:active img {
-  transform: scale(1.06);
-}
-
-/* ===== 메뉴 영역 (하단까지 채움) ===== */
+/* ===== 컨텐츠 컨테이너 ===== */
 .container {
-  width: 100%;
-  min-height: 100vh;  
-  padding: 4vw 4vw 8vw;
-  background: #1c1c1c;
+  flex: 1; /* 남은 화면 공간을 모두 차지 */
   display: flex;
   flex-direction: column;
+  justify-content: space-between; /* 요소들을 위, 중간, 아래로 분산 */
   align-items: center;
+  padding-top: 5vh;
+}
+
+.content-top {
+  text-align: center;
 }
 
 h1 {
-  font-size: 5vw;
-  margin-bottom: 2vw;
-  text-align: center;
+  font-size: 5.5vw;
   color: #fff;
+  margin-bottom: 1vh;
 }
 
 .subtitle {
-  font-size: 3.5vw;
+  font-size: 3.8vw;
   color: #aaa;
-  margin-bottom: 4vw;
-  text-align: center;
+  margin-bottom: 2vh;
 }
 
+/* ===== 메뉴 영역 ===== */
 .menu {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 3vw;
+  gap: 1.2vh; /* 기기 높이에 따라 간격 자동 조절 */
   align-items: center;
+  padding: 0 5vw;
 }
 
 .menu a {
-  width: 90%;
-  padding: 4vw;
+  width: 100%;
+  max-width: 500px;
+  padding: 3.5vw 5vw;
   background: #222;
   color: #fff;
   text-decoration: none;
-  font-size: 4vw;
+  font-size: 4.2vw;
   font-weight: bold;
-  border-radius: 3vw;
-  box-shadow: 0 1vw 3vw rgba(0,0,0,0.4);
+  border-radius: 2vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: transform 0.15s ease;
-  -webkit-tap-highlight-color: transparent;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
 }
 
 .menu a span {
-  font-size: 3vw;
-  color: #888;
-  font-weight: normal;
+  color: #666;
+  font-size: 4vw;
 }
 
+/* ===== 하단 초록색 CI 박스 (정중앙 정렬 및 하단 고정) ===== */
+.ci-box {
+  width: 100%;
+  height: 15vh; /* 하단 영역 높이 확보 */
+  background-color: #333B18;
+  display: flex;
+  justify-content: center; /* 가로 중앙 */
+  align-items: center;     /* 세로 중앙 */
+  text-decoration: none;
+  flex-shrink: 0;
+}
+
+.ci-box img {
+  height: 35%; /* 박스 높이 대비 로고 크기 조정 */
+  width: auto;
+  object-fit: contain;
+}
