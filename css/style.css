@@ -8,8 +8,9 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 스크롤 제거 */
   background: #1c1c1c;
   font-family: sans-serif;
 }
@@ -22,7 +23,7 @@ a, button {
 .wrapper {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100%;
   position: relative;
 }
 
@@ -47,24 +48,34 @@ a, button {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block; /* 밑 공백 제거 */
+  display: block;
 }
 
 /* ===== 메뉴 ===== */
 .container {
   flex: 1;
   width: 100%;
-  padding: 2vw 4vw 0 4vw;  /* 위 여백은 2vw, 아래는 0 */
-  background: #1c1c1c;
+  padding: 2vw 4vw 0 4vw;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;  /* 슬라이드 바로 아래부터 시작 */
+  justify-content: flex-start;
   align-items: center;
-  gap: 2vw;  /* 슬라이드와 메뉴 간격 */
+  gap: 2vw; /* 슬라이드와 메뉴 간격 */
 }
 
-h1 { font-size: 5vw; margin-bottom: 1vw; text-align: center; color: #fff; }
-.subtitle { font-size: 3.5vw; color: #aaa; margin-bottom: 3vw; text-align: center; }
+h1 {
+  font-size: 5vw;
+  margin-bottom: 1vw;
+  text-align: center;
+  color: #fff;
+}
+
+.subtitle {
+  font-size: 3.5vw;
+  color: #aaa;
+  margin-bottom: 3vw;
+  text-align: center;
+}
 
 .menu {
   width: 100%;
@@ -96,21 +107,22 @@ h1 { font-size: 5vw; margin-bottom: 1vw; text-align: center; color: #fff; }
 
 /* ===== CI 박스 ===== */
 .ci-box {
-  position: fixed;               /* 화면 최하단 고정 */
-  bottom: 0;
+  position: fixed;
   left: 0;
+  bottom: 0;
   width: 100%;
   height: clamp(60px, 15vw, 120px);
   background-color: #333B18;
   display: flex;
   justify-content: center;
   align-items: center;
-  text-decoration: none;
   z-index: 100;
-  padding-bottom: env(safe-area-inset-bottom, 0); /* 하단 안전 영역 */
+  padding-bottom: env(safe-area-inset-bottom, 0);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.15s ease;
 }
 
 .ci-box img {
   max-width: 50%;
-  object-fit: contain;
+  pointer-events: none;
 }
