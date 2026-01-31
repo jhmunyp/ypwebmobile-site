@@ -1,4 +1,4 @@
-/* ===== 기본 ===== */
+/* ===== 기본 초기화 ===== */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -8,14 +8,16 @@
 html, body {
   width: 100%;
   height: 100%;
-  overflow: hidden; /* 스크롤 방지 */
+  overflow-x: hidden;
+  overflow-y: auto;
   background: #1c1c1c;
+  font-family: sans-serif;
 }
 
 .wrapper {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 /* ===== 슬라이더 ===== */
@@ -24,6 +26,7 @@ html, body {
   aspect-ratio: 21 / 9;
   overflow: hidden;
   flex-shrink: 0;
+  position: relative;
 }
 
 .slides {
@@ -39,10 +42,10 @@ html, body {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block; /* 슬라이더 밑 공백 제거 */
+  display: block;
 }
 
-/* ===== 메뉴 영역 (중앙 배치) ===== */
+/* ===== 메뉴 ===== */
 .container {
   flex: 1;
   width: 100%;
@@ -50,7 +53,7 @@ html, body {
   background: #1c1c1c;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 세로 중앙 정렬 */
+  justify-content: center;
   align-items: center;
 }
 
@@ -77,21 +80,26 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: transform 0.1s;
 }
 
-/* ===== CI 띠 박스 (하단 정중앙 고정) ===== */
+.menu a.is-active {
+  transform: translateY(-0.5vw);
+}
+
+/* ===== CI 박스 ===== */
 .ci-box {
   width: 100%;
-  height: 20vw; /* 높이 조절 */
+  height: clamp(60px, 15vw, 120px);
   background-color: #333B18;
   display: flex;
-  justify-content: center; /* 가로 중앙 */
-  align-items: center;     /* 세로 중앙 */
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   flex-shrink: 0;
 }
 
 .ci-box img {
-  max-width: 50%; /* 로고 크기 */
+  max-width: 50%;
   object-fit: contain;
 }
