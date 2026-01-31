@@ -109,14 +109,31 @@ h1 {
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-/* ===== CI 박스 ===== */
-.ci-box {
+/* BI 박스 */
+.bi-box {
   position: absolute; /* JS로 위치 제어 */
   left: 0;
   width: 100%;
   transition: transform 0.15s ease;
   background: none;
-  box-shadow: none;
+  z-index: 9998; /* CI보다 낮게 */
+}
+
+.bi-box img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+/* CI 박스 z-index = 9999 */
+.ci-box {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  transition: transform 0.15s ease;
+  background: none;
   z-index: 9999;
 }
 
@@ -128,6 +145,11 @@ h1 {
   pointer-events: none;
 }
 
+.bi-box:active {
+  transform: scale(1.05);
+}
+
 .ci-box:active {
   transform: scale(1.05);
 }
+
