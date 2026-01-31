@@ -51,10 +51,23 @@ a, button {
   display: block;
 }
 
+/* ===== 슬라이드 아래 텍스트 ===== */
+.subtitle-container {
+  width: 100%;
+  text-align: center;
+  padding: 2vw 4vw 0 4vw;
+}
+
+.subtitle {
+  font-size: 3.5vw;
+  color: #555;
+  margin-bottom: 3vw;
+}
+
 /* ===== 메뉴 (2열) ===== */
 .container {
   width: 100%;
-  padding: 2vw 4vw 0 4vw;
+  padding: 0 4vw 0 4vw;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -62,16 +75,16 @@ a, button {
 
 .menu {
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  flex-wrap: wrap; /* 갤럭시 인터넷 호환 */
   gap: 3vw;
-  justify-items: center;
+  justify-content: space-between;
 }
 
-/* ===== 메뉴 버튼 (크기 축소 + 그라데이션) ===== */
 .menu a {
-  width: 100%;
+  flex: 0 0 48%; /* 2열 배치 */
   padding: 3vw;
+  background: #ffffff; /* fallback */
   background: linear-gradient(145deg, #ffffff, #eeeeee);
   color: #000;
   text-decoration: none;
@@ -87,7 +100,7 @@ a, button {
 }
 
 .menu a.is-active {
-  transform: translateY(-0.5vw);
+  transform: scale(0.97); /* 모바일 호환 터치 효과 */
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
@@ -107,7 +120,7 @@ a, button {
   object-fit: contain;
 }
 
-/* CI 박스 터치 확대 */
-.ci-box:active {
-  transform: scale(1.05);
+/* BI/CI 터치 확대/축소 효과 모바일 호환 */
+.bi-box, .ci-box {
+  touch-action: manipulation;
 }
