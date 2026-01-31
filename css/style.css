@@ -11,8 +11,9 @@ html, body {
   margin: 0;
   padding: 0;
   overflow: hidden; /* 스크롤 제거 */
-  background: #1c1c1c;
+  background-color: #fff; /* 페이지 전체 흰색 */
   font-family: sans-serif;
+  color: #000;
 }
 
 a, button {
@@ -25,6 +26,7 @@ a, button {
   flex-direction: column;
   min-height: 100%;
   position: relative;
+  background-color: #fff; /* 흰색 배경 고정 */
 }
 
 /* ===== 슬라이더 ===== */
@@ -67,12 +69,12 @@ h1 {
   font-size: 5vw;
   margin-bottom: 1vw;
   text-align: center;
-  color: #fff;
+  color: #000;
 }
 
 .subtitle {
   font-size: 3.5vw;
-  color: #aaa;
+  color: #333;
   margin-bottom: 3vw;
   text-align: center;
 }
@@ -88,8 +90,8 @@ h1 {
 .menu a {
   width: 90%;
   padding: 4vw;
-  background: #222;
-  color: #fff;
+  background: #222; /* 버튼 배경 */
+  color: #fff;       /* 버튼 글자 */
   text-decoration: none;
   font-size: 4vw;
   font-weight: bold;
