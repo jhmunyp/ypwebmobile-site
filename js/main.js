@@ -18,7 +18,7 @@ const slider = document.querySelector('.slider');
 
 slider.addEventListener('touchstart', e => { 
   startX = e.touches[0].clientX;
-  clearInterval(autoInterval); // 터치 시 자동슬라이드 정지
+  clearInterval(autoInterval);
 });
 
 slider.addEventListener('touchend', e => {
@@ -49,7 +49,7 @@ document.querySelectorAll('.menu a').forEach(btn => {
   });
 });
 
-// ===== CI + BI 이미지 하단 위치 제어 (갤럭시 인터넷 대응) =====
+// ===== BI + CI 이미지 위치 제어 (겹치지 않도록) =====
 const ciBox = document.querySelector('.ci-box');
 const biBox = document.querySelector('.bi-box');
 
@@ -58,8 +58,13 @@ function updateBoxesPosition() {
   const ciHeight = ciBox.offsetHeight;
   const biHeight = biBox.offsetHeight;
 
+  // CI 최하단
   ciBox.style.top = (viewportHeight - ciHeight) + 'px';
-  biBox.style.top = (viewportHeight - ciHeight - biHeight) + 'px';
+
+  // BI 박스: CI 바로 위, 최소 margin 10px 확보
+  const biTop = viewportHeight - ciHeight - biHeight;
+  const minMargin = 10; // 메뉴와 겹치지 않도록 최소 여백
+  biBox.style.top = Math.max(biTop, minMargin) + 'px';
 }
 
 // 초기 위치
