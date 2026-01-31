@@ -8,12 +8,10 @@
 html, body {
   width: 100%;
   height: 100%;
-  margin: 0;
-  padding: 0;
-  overflow: auto;
   background-color: #fff;
   font-family: sans-serif;
   color: #000;
+  -webkit-text-size-adjust: 100%;
 }
 
 a, button {
@@ -54,28 +52,12 @@ a, button {
 
 /* ===== 메뉴 ===== */
 .container {
-  flex: 1;
   width: 100%;
   padding: 2vw 4vw 0 4vw;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
   align-items: center;
   gap: 2vw;
-}
-
-h1 {
-  font-size: 5vw;
-  margin-bottom: 1vw;
-  text-align: center;
-  color: #000;
-}
-
-.subtitle {
-  font-size: 3.5vw;
-  color: #333;
-  margin-bottom: 3vw;
-  text-align: center;
 }
 
 .menu {
@@ -115,7 +97,6 @@ h1 {
   left: 0;
   width: 100%;
   transition: transform 0.15s ease;
-  background: none;
   pointer-events: none;
 }
 
@@ -130,10 +111,3 @@ h1 {
 .ci-box:active {
   transform: scale(1.05);
 }
-
-/* BI 박스 터치 확대 */
-
-.bi-box:active {
-  transform: scale(1.05);
-}
-
