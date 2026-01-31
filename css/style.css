@@ -11,7 +11,7 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Nanum Gothic'; background: #f2f4f7; }
 
-/* ===== 배너 ===== */
+/* ===== 배너 슬라이더 ===== */
 .slider { width: 100%; aspect-ratio: 21/9; overflow: hidden; position: relative; }
 .slides { display: flex; transition: transform 0.4s; }
 .slide { min-width: 100%; }
@@ -49,7 +49,6 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; }
   -webkit-tap-highlight-color: transparent;
   cursor: pointer;
 }
-
 .menu a span { font-size: 3vw; color: #888; font-weight: normal; }
 
-/* 모바일에서는 :hover 제거, JS로 터치 효과 처리 */
+/* 터치 효과는 JS로 처리 */
