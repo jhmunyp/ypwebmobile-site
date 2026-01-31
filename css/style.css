@@ -42,23 +42,25 @@ a, button { -webkit-tap-highlight-color:transparent; }
 /* ===== CI 버튼 (하단 고정) ===== */
 .ci-box {
   position:fixed;
-  bottom:2vw;
+  bottom:2vw; /* 하단 여백 */
   left:50%;
   transform:translateX(-50%);
-  width:50%;
+  width:50%; /* 가로 비율 */
+  max-width:400px; 
   z-index:10;
   touch-action:manipulation;
   transition: transform 0.15s ease;
 }
 .ci-box img { width:100%; display:block; }
 
-/* ===== BI 버튼 (CI 위에 붙이기) ===== */
+/* ===== BI 버튼 (CI 바로 위에 붙이기) ===== */
 .bi-box {
   position:fixed;
-  bottom:calc(2vw + 50% + 1vw); /* CI 높이 + margin 1vw */
+  bottom: calc(2vw + 50% + 1vw); /* CI 높이(50%) + 마진 1vw */
   left:50%;
   transform:translateX(-50%);
-  width:40%;
+  width:40%; 
+  max-width:300px; 
   z-index:11;
   touch-action:manipulation;
   transition: transform 0.15s ease;
