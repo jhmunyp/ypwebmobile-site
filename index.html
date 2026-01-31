@@ -1,43 +1,48 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#ffffff">
-    <title>모바일 메인</title>
-    <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-    <div class="wrapper">
-        <!-- ===== 슬라이더 ===== -->
-        <div class="slider">
-            <div class="slides">
-                <div class="slide"><img src="images/banner1.jpg" alt="배너1"></div>
-                <div class="slide"><img src="images/banner2.jpg" alt="배너2"></div>
-                <div class="slide"><img src="images/banner3.jpg" alt="배너3"></div>
-            </div>
-        </div>
+// ===== 배너 슬라이드 =====
+const slides = document.querySelector('.slides');
+let index = 0;
 
-        <!-- ===== 메뉴 ===== -->
-        <div class="container">
-            <h1>자주 찾는 메뉴</h1>
-            <p class="subtitle">원하시는 서비스를 바로 이용하세요</p>
+function showSlide(i) {
+  slides.style.transform = `translateX(-${i * 100}%)`;
+}
 
-            <div class="menu">
-                <a href="tel:01012345678">전화 걸기 <span>〉</span></a>
-                <a href="https://gilchkin.iyes.biz/">객실체크인 <span>〉</span></a>
-                <a href="https://share.google/bIK4FIwg1I5erQH2F">슬로프 운영현황 <span>〉</span></a>
-                <a href="https://share.google/7f2YXXVf0fzdZeXil">식음/레저 운영정보 <span>〉</span></a>
-                <a href="https://share.google/NshHQboxiayUHrgPR">KTX·셔틀 운영안내 <span>〉</span></a>
-            </div>
-        </div>
-    </div>
+// 자동 슬라이드
+let autoInterval = setInterval(() => {
+  index = (index + 1) % slides.children.length;
+  showSlide(index);
+}, 3000);
 
-    <!-- ===== CI 이미지 최하단 ===== -->
-    <a href="#" class="ci-box">
-        <img src="images/CI/MONAYongPyongCI.jpg" alt="YongPyong CI">
-    </a>
+// ===== 스와이프 처리 =====
+let startX = 0;
+const slider = document.querySelector('.slider');
 
-    <script src="js/main.js"></script>
-</body>
-</html>
+slider.addEventListener('touchstart', e => { 
+  startX = e.touches[0].clientX;
+  clearInterval(autoInterval);
+});
+
+slider.addEventListener('touchend', e => {
+  const diff = startX - e.changedTouches[0].clientX;
+  if (Math.abs(diff) > 50) {
+    index = diff > 0
+      ? (index + 1) % slides.children.length
+      : (index - 1 + slides.children.length) % slides.children.length;
+  }
+  showSlide(index);
+  autoInterval = setInterval(() => {
+    index = (index + 1) % slides.children.length;
+    showSlide(index);
+  }, 3000);
+});
+
+// ===== 메뉴 터치 효과 =====
+document.querySelectorAll('.menu a').forEach(btn => {
+  btn.addEventListener('touchstart', () => {
+    btn.style.transform = 'translateY(-0.5vw)';
+    btn.classList.add('is-active');
+  });
+  btn.addEventListener('touchend', () => {
+    btn.style.transform = 'translateY(0)';
+    btn.classList.remove('is-active');
+  });
+});
