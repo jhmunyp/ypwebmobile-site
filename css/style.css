@@ -12,6 +12,7 @@ html, body {
   font-family: sans-serif;
   color: #000;
   -webkit-text-size-adjust: 100%;
+  overflow: hidden; /* 전체 스크롤 방지 */
 }
 
 a, button {
@@ -50,34 +51,33 @@ a, button {
   display: block;
 }
 
-/* ===== 메뉴 ===== */
+/* ===== 메뉴 (2열) ===== */
 .container {
   width: 100%;
   padding: 2vw 4vw 0 4vw;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2vw;
 }
 
 .menu {
   width: 100%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 3vw;
-  align-items: center;
+  justify-items: center;
 }
 
-/* ===== 메뉴 버튼 그라데이션 + 터치 효과 ===== */
+/* ===== 메뉴 버튼 (크기 축소 + 그라데이션) ===== */
 .menu a {
-  width: 90%;
-  padding: 4vw;
+  width: 100%;
+  padding: 3vw;
   background: linear-gradient(145deg, #ffffff, #eeeeee);
   color: #000;
   text-decoration: none;
-  font-size: 4vw;
+  font-size: 3.5vw;
   font-weight: bold;
-  border-radius: 3vw;
+  border-radius: 2.5vw;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -93,11 +93,11 @@ a, button {
 
 /* ===== BI + CI 박스 ===== */
 .bi-box, .ci-box {
-  position: absolute; /* JS로 위치 제어 */
+  position: absolute;
   left: 0;
   width: 100%;
-  transition: transform 0.15s ease;
   pointer-events: none;
+  transition: transform 0.15s ease;
 }
 
 .bi-box img, .ci-box img {
@@ -109,10 +109,5 @@ a, button {
 
 /* CI 박스 터치 확대 */
 .ci-box:active {
-  transform: scale(1.05);
-}
-
-/* BI 박스 터치 확대 */
-.bi-box:active {
   transform: scale(1.05);
 }
