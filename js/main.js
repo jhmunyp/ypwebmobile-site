@@ -4,9 +4,7 @@ const totalSlides = slides.children.length;
 let index = 0;
 let autoInterval;
 
-if (totalSlides > 1) {
-  startAutoSlide();
-}
+if (totalSlides > 1) startAutoSlide();
 
 function showSlide(i) {
   slides.style.transform = `translateX(-${i * 100}%)`;
@@ -29,9 +27,7 @@ slider.addEventListener('touchstart', e => {
   clearInterval(autoInterval);
 });
 
-slider.addEventListener('touchmove', e => {
-  e.preventDefault();
-}, { passive: false });
+slider.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
 
 slider.addEventListener('touchend', e => {
   const diff = startX - e.changedTouches[0].clientX;
@@ -50,7 +46,7 @@ document.querySelectorAll('.menu a').forEach(btn => {
   btn.addEventListener('touchend', () => btn.classList.remove('is-active'));
 });
 
-// ===== CI 박스 터치 효과 =====
+// ===== CI 이미지 터치 효과 =====
 const ciBox = document.querySelector('.ci-box');
 ciBox.addEventListener('touchstart', () => ciBox.style.transform = 'scale(1.05)');
 ciBox.addEventListener('touchend', () => ciBox.style.transform = 'scale(1)');
