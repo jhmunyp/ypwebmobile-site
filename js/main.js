@@ -60,19 +60,25 @@ document.querySelectorAll('.menu a').forEach(btn => {
 const ciBox = document.querySelector('.ci-box');
 const biBox = document.querySelector('.bi-box');
 const container = document.querySelector('.container');
+const menuButtons = container.querySelectorAll('.menu a');
 
 function updateBoxesPosition() {
   const viewportHeight = window.innerHeight;
   const ciHeight = ciBox.offsetHeight;
   const biHeight = biBox.offsetHeight;
-  const menuBottom = container.getBoundingClientRect().bottom; // 메뉴 영역 끝
+
+  // 메뉴 하단 계산 (마지막 버튼까지)
+  const lastButton = menuButtons[menuButtons.length - 1];
+  const lastButtonRect = lastButton.getBoundingClientRect();
+  const containerRect = container.getBoundingClientRect();
+  const menuBottom = containerRect.top + lastButtonRect.bottom - containerRect.top;
 
   // CI 최하단
   ciBox.style.top = (viewportHeight - ciHeight) + 'px';
 
-  // BI 박스: CI 바로 위, 메뉴 끝에서 최소 10px 떨어지도록
+  // BI 박스: CI 바로 위, 메뉴 끝에서 최소 20px 떨어지도록
   const biTop = viewportHeight - ciHeight - biHeight;
-  const minTop = menuBottom + 10;
+  const minTop = menuBottom + 20;
   biBox.style.top = Math.max(biTop, minTop) + 'px';
 }
 
