@@ -24,7 +24,7 @@ slider.addEventListener('touchstart', e => {
 });
 
 slider.addEventListener('touchmove', e => {
-  if (isTouching) e.preventDefault(); // 스크롤 방지
+  if (isTouching) e.preventDefault();
 }, { passive: false });
 
 slider.addEventListener('touchend', e => {
@@ -47,16 +47,16 @@ slider.addEventListener('touchend', e => {
 // ===== 메뉴 버튼 터치 효과 =====
 document.querySelectorAll('.menu a').forEach(btn => {
   btn.addEventListener('touchstart', () => {
-    btn.style.transform = 'translateY(-0.5vw)';
+    btn.style.transform = 'scale(0.97)';
     btn.classList.add('is-active');
   });
   btn.addEventListener('touchend', () => {
-    btn.style.transform = 'translateY(0)';
+    btn.style.transform = 'scale(1)';
     btn.classList.remove('is-active');
   });
 });
 
-// ===== BI + CI 위치 제어 =====
+// ===== BI + CI 위치 제어 + 터치 확대 =====
 const ciBox = document.querySelector('.ci-box');
 const biBox = document.querySelector('.bi-box');
 
@@ -65,16 +65,17 @@ function updateBoxesPosition() {
   const ciHeight = ciBox.offsetHeight;
   const biHeight = biBox.offsetHeight;
 
-  // CI 최하단 고정
   ciBox.style.top = (viewportHeight - ciHeight) + 'px';
-
-  // BI 바로 위 (CI 위에 붙음)
   biBox.style.top = (viewportHeight - ciHeight - biHeight) + 'px';
 }
 
 // 초기 위치
 updateBoxesPosition();
-
-// 리사이즈/회전 대응
 window.addEventListener('resize', updateBoxesPosition);
 window.addEventListener('orientationchange', updateBoxesPosition);
+
+// BI/CI 터치 확대 (모바일 호환)
+[biBox, ciBox].forEach(box => {
+  box.addEventListener('touchstart', () => { box.style.transform = 'scale(1.05)'; });
+  box.addEventListener('touchend', () => { box.style.transform = 'scale(1)'; });
+});
