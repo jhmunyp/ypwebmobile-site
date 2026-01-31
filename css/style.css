@@ -112,7 +112,7 @@ h1 {
 
 /* ===== CI 박스 (이미지만, 최하단 고정, 갤럭시 인터넷 대응) ===== */
 .ci-box {
-  position: absolute; /* fixed → absolute로 변경 */
+  position: fixed;   /* absolute → fixed로 변경 */
   bottom: 0;
   left: 0;
   width: 100%;
@@ -122,12 +122,13 @@ h1 {
   background: none;
   box-shadow: none;
   -webkit-tap-highlight-color: transparent;
+  z-index: 100;
 }
 
 .ci-box img {
   display: block;
-  width: 100%;   /* 가로 전체 */
-  height: auto;  /* 비율 유지 */
+  width: 100%;    /* 가로 전체 */
+  height: auto;   /* 비율 유지 */
   object-fit: contain;
   pointer-events: none;
 }
@@ -136,3 +137,4 @@ h1 {
 .ci-box:active {
   transform: scale(1.05);
 }
+
