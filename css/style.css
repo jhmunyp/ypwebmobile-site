@@ -123,8 +123,6 @@ h1 {
   padding-bottom: env(safe-area-inset-bottom, 0);
   -webkit-tap-highlight-color: transparent;
   transition: transform 0.15s ease;
-  background: none; /* 네모 박스 제거 */
-  box-shadow: none; /* 그림자 제거 */
 }
 
 .ci-box img {
@@ -139,3 +137,4 @@ h1 {
 .ci-box:active {
   transform: scale(1.05);
 }
+
