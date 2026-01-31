@@ -14,10 +14,16 @@ html, body {
   font-family: sans-serif;
 }
 
+a, button {
+  -webkit-tap-highlight-color: transparent; /* 안드로이드/갤럭시 터치 하이라이트 제거 */
+}
+
 .wrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  position: relative;
+  padding-bottom: clamp(60px, 15vw, 120px); /* CI 박스 공간 확보 */
 }
 
 /* ===== 슬라이더 ===== */
@@ -81,6 +87,8 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
   justify-content: space-between;
   align-items: center;
   transition: transform 0.1s;
+  -webkit-tap-highlight-color: transparent; /* 터치 피드백 제거 */
+  touch-action: manipulation; /* 불필요한 확대/스크롤 방지 */
 }
 
 .menu a.is-active {
@@ -89,6 +97,9 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
 
 /* ===== CI 박스 ===== */
 .ci-box {
+  position: absolute; /* 화면 하단 고정 */
+  bottom: 0;
+  left: 0;
   width: 100%;
   height: clamp(60px, 15vw, 120px);
   background-color: #333B18;
@@ -96,7 +107,6 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; color: #fff; }
   justify-content: center;
   align-items: center;
   text-decoration: none;
-  flex-shrink: 0;
 }
 
 .ci-box img {
