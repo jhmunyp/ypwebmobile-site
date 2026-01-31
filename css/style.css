@@ -51,4 +51,28 @@ h1 { font-size: 5vw; margin-bottom: 2vw; text-align: center; }
 }
 .menu a span { font-size: 3vw; color: #888; font-weight: normal; }
 
-/* 터치 효과는 JS로 처리 */
+/* ===== CI 박스 ===== */
+.ci-box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  max-width: 400px;
+  aspect-ratio: 3/1;
+  background-color: #333B18;
+  margin: 5vw auto 0;
+  border-radius: 1vw;
+  overflow: hidden;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.ci-box img {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  transition: transform 0.2s ease;
+}
+.ci-box:active img {
+  transform: scale(1.05);
+}
