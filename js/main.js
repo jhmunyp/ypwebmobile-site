@@ -34,16 +34,25 @@ slider.addEventListener('touchend', e => {
   }
 });
 
-// ===== 메뉴 클릭 이동 =====
+// ===== 메뉴 클릭 이동 & 터치 효과 =====
 document.querySelectorAll('.menu a').forEach(btn => {
+  // 터치 눌림 효과
+  btn.addEventListener('touchstart', () => {
+    btn.style.transform = 'translateY(-0.5vw)';
+  });
+  btn.addEventListener('touchend', () => {
+    btn.style.transform = 'translateY(0)';
+  });
+
+  // 메뉴 이동
   btn.addEventListener('click', e => {
     e.preventDefault();
     location.href = btn.getAttribute('href');
   });
 });
 
-// ===== 페이지 복원 시 버튼 상태 초기화 =====
+// ===== 페이지 복원 시 초기화 =====
 window.addEventListener('pageshow', () => {
   document.querySelectorAll('.menu a').forEach(btn => btn.style.transform = 'translateY(0)');
-  window.scrollTo(0, 0); // 스크롤 맨 위
+  window.scrollTo(0, 0);
 });
