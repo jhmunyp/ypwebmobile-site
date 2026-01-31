@@ -22,24 +22,10 @@ document.querySelectorAll('.menu a').forEach(btn=>{
   btn.addEventListener('touchend', ()=>{ btn.style.transform='scale(1)'; btn.classList.remove('is-active'); });
 });
 
-// ===== BI/CI 위치 제어 + 터치 확대 + 클릭 이동 =====
-const ciBox=document.querySelector('.ci-box'), biBox=document.querySelector('.bi-box');
-function updateBoxesPosition(){
-  const vh=window.innerHeight;
-  const ciH=ciBox.offsetHeight, biH=biBox.offsetHeight;
-  ciBox.style.top=(vh-ciH)+'px';
-  biBox.style.top=(vh-ciH-biH)+'px';
-}
-updateBoxesPosition();
-window.addEventListener('resize', updateBoxesPosition);
-window.addEventListener('orientationchange', updateBoxesPosition);
-
-[biBox, ciBox].forEach(box=>{
-  // 터치 확대/축소
+// ===== BI/CI 터치 확대 + 클릭 이동 =====
+[document.querySelector('.bi-box'), document.querySelector('.ci-box')].forEach(box=>{
   box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
   box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
-
-  // 클릭 시 페이지 이동
   box.addEventListener('click', e=>{
     const link = box.querySelector('img').dataset.href;
     if(link) window.location.href = link;
