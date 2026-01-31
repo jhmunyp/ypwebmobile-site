@@ -17,7 +17,7 @@ a, button { -webkit-tap-highlight-color: transparent; }
   width: 100%;
   text-align: center;
   padding: 0.5vw 4vw 0 4vw; /* 위쪽 붙임 */
-  margin-top: -10vw; /* 슬라이드 바로 붙임 */
+  margin-top: -30vw; /* 슬라이드 바로 붙임 */
 }
 .subtitle {
   font-size: 3.5vw;
@@ -60,4 +60,5 @@ a, button { -webkit-tap-highlight-color: transparent; }
   transition: transform 0.15s ease;
 }
 .bi-box img, .ci-box img { display:block; width:100%; height:auto; object-fit:contain; }
+
 
