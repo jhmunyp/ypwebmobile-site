@@ -22,7 +22,7 @@ document.querySelectorAll('.menu a').forEach(btn=>{
   btn.addEventListener('touchend', ()=>{ btn.style.transform='scale(1)'; btn.classList.remove('is-active'); });
 });
 
-// ===== BI/CI 터치 확대 + 클릭 이동 =====
+// ===== BI/CI 터치 확대 =====
 document.querySelectorAll('.bi-box, .ci-box').forEach(box=>{
   box.addEventListener('touchstart', ()=>{ box.style.transform='scale(1.05)'; });
   box.addEventListener('touchend', ()=>{ box.style.transform='scale(1)'; });
