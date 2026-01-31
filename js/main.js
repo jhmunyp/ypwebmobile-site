@@ -50,7 +50,7 @@ document.querySelectorAll('.menu a').forEach(btn => {
   btn.addEventListener('touchend', () => btn.classList.remove('is-active'));
 });
 
-// ===== CI 박스 터치 효과 (JS 보조) =====
+// ===== CI 박스 터치 효과 =====
 const ciBox = document.querySelector('.ci-box');
 ciBox.addEventListener('touchstart', () => ciBox.style.transform = 'scale(1.05)');
 ciBox.addEventListener('touchend', () => ciBox.style.transform = 'scale(1)');
