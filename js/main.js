@@ -16,10 +16,7 @@ setInterval(() => {
 let startX = 0;
 const slider = document.querySelector('.slider');
 
-slider.addEventListener('touchstart', e => {
-  startX = e.touches[0].clientX;
-});
-
+slider.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
 slider.addEventListener('touchend', e => {
   const diff = startX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 50) {
@@ -32,7 +29,6 @@ slider.addEventListener('touchend', e => {
 
 // ===== 메뉴 터치 효과 + 클릭 이동 =====
 document.querySelectorAll('.menu a').forEach(btn => {
-  // 눌린 버튼만 올라가도록
   btn.addEventListener('touchstart', e => {
     e.stopPropagation();
     btn.style.transform = 'translateY(-0.5vw)';
@@ -41,8 +37,6 @@ document.querySelectorAll('.menu a').forEach(btn => {
     e.stopPropagation();
     btn.style.transform = 'translateY(0)';
   });
-
-  // 클릭 이동
   btn.addEventListener('click', e => {
     e.preventDefault();
     location.href = btn.getAttribute('href');
