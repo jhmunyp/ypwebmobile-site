@@ -10,7 +10,7 @@
 <body>
   <div class="wrapper">
 
-    <!-- 배너(슬라이드) -->
+    <!-- 슬라이더 -->
     <section class="slider-wrapper" aria-label="메인 배너">
       <div class="slider" id="slider">
         <div class="slides" id="slides">
@@ -29,7 +29,9 @@
     <!-- 메뉴 -->
     <main class="container" aria-label="서비스 메뉴">
       <nav class="menu">
-        <a href="tel:01082104129">전화 걸기 <span>〉</span></a>
+        <!-- ✅ 전화는 JS가 가로채지 않음(기본 tel 동작) -->
+        <a class="tel-link" href="tel:01082104129">전화 걸기 <span>〉</span></a>
+
         <a href="https://gilchkin.iyes.biz/">객실체크인 <span>〉</span></a>
         <a href="https://share.google/bIK4FIwg1I5erQH2F">슬로프 운영현황 <span>〉</span></a>
         <a href="https://share.google/7f2YXXVf0fzdZeXil">식음/레저 운영정보 <span>〉</span></a>
@@ -45,11 +47,8 @@
       </nav>
     </main>
 
-    <!-- 메뉴-푸터 간격(6px) -->
-    <div class="menu-footer-gap" aria-hidden="true"></div>
-
-    <!-- 하단 BI/CI -->
-    <footer class="footer-bar" aria-label="하단 BI/CI">
+    <!-- ✅ footer를 wrapper 안으로 넣어서 iOS/카톡 인앱에서도 동일하게 -->
+    <footer class="footer-bar" aria-label="하단 고정 BI/CI">
       <a href="https://example.com/bi" class="footer-banner">
         <img src="images/CI/MONAYongPyongmallBI.jpg" alt="YongPyong Mall BI">
       </a>
