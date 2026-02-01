@@ -8,7 +8,7 @@ a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transpar
   --appH: 100vh;        /* JS가 실제 보이는 높이(px)로 주입 */
   --menuItemH: 56px;    /* JS가 남는 공간으로 계산해서 주입 */
   --menuRowGap: 12px;   /* 메뉴 줄 간격(px) */
-  --menuFooterGap: 6px; /* ✅ 메뉴-푸터 간격 고정 */
+  --menuFooterGap: 6px; /* 메뉴-푸터 간격 고정 */
 }
 
 /* ===== Scroll OFF ===== */
@@ -75,7 +75,7 @@ html, body{
 }
 
 .menu a{
-  height: var(--menuItemH); /* ✅ 화면에 딱 맞게 */
+  height: var(--menuItemH); /* 화면에 딱 맞게 */
   padding: 0 3vw;
   background: #f2f2f2;
   border-radius: 1.8vh;
@@ -86,7 +86,7 @@ html, body{
   font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
-/* ✅ 메뉴-푸터 사이 고정 간격 */
+/* 메뉴-푸터 사이 고정 간격 */
 .menu-footer-gap{
   height: var(--menuFooterGap);
   flex: 0 0 auto;
@@ -118,3 +118,4 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
+
