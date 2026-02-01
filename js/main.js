@@ -3,9 +3,9 @@ let sliderTimer = null;
 const TAP_DURATION = 180; // CSS tapPop 0.18s
 
 function playTapAnimation(el) {
-  el.classList.remove('tap-anim');
+  el.classList.remove("tap-anim");
   void el.offsetWidth; // reflow
-  el.classList.add('tap-anim');
+  el.classList.add("tap-anim");
 }
 
 function isSystemScheme(href = "") {
@@ -19,11 +19,11 @@ function isSystemScheme(href = "") {
   );
 }
 
-function goAfterAnim(el, href, durationMs) {
+function goAfterAnim(el, href) {
   playTapAnimation(el);
   setTimeout(() => {
     window.location.href = href;
-  }, durationMs);
+  }, TAP_DURATION);
 }
 
 /* ===== 슬라이더 ===== */
@@ -43,42 +43,7 @@ function initSlider() {
   }, 3000);
 }
 
-/* ===== footer 높이 측정 → wrapper padding-bottom 반영 ===== */
-function updateFooterHeightVar() {
-  const footer = document.querySelector(".footer-fixed");
-  if (!footer) return;
-
-  // 이미지 로딩 전/후 모두 대응
-  const h = Math.ceil(footer.getBoundingClientRect().height);
-  document.documentElement.style.setProperty("--footerH", `${h}px`);
-}
-
-/* ===== 남은 높이에 맞춰 메뉴 스케일 자동 조정 ===== */
-function fitMenuToScreen() {
-  const wrapper = document.querySelector(".wrapper");
-  const menu = document.querySelector(".menu");
-  if (!wrapper || !menu) return;
-
-  // 초기 스케일로 측정
-  document.documentElement.style.setProperty("--menuScale", "1");
-
-  // footer 높이 반영
-  updateFooterHeightVar();
-
-  // 현재 wrapper 안에서 메뉴가 넘치는지 확인
-  // (wrapper는 footer 높이만큼 padding-bottom 확보한 상태)
-  const wrapperH = wrapper.getBoundingClientRect().height;
-  const contentH = wrapper.scrollHeight;
-
-  // 넘치면 메뉴를 축소 (최소 0.85까지)
-  if (contentH > wrapperH) {
-    const ratio = wrapperH / contentH;
-    const scale = Math.max(0.85, Math.min(1, ratio));
-    document.documentElement.style.setProperty("--menuScale", String(scale));
-  }
-}
-
-/* ===== 공통: 탭 애니메이션 + 이동(메뉴/배너 동일) ===== */
+/* ===== 버튼 탭: 애니메이션 후 이동(단, tel: 등은 즉시) ===== */
 function bindTapNavigate(el) {
   const href = el.getAttribute("href") || "";
 
@@ -90,12 +55,12 @@ function bindTapNavigate(el) {
     }
 
     if (isSystemScheme(href)) {
-      // 전화/메일/SMS는 iOS 안정성을 위해 이동을 막지 않음
+      // 시스템 스킴은 iOS 안정성 위해 이동 막지 않음
       return;
     }
 
     e.preventDefault();
-    goAfterAnim(el, href, TAP_DURATION);
+    goAfterAnim(el, href);
   };
 
   let touched = false;
@@ -104,11 +69,9 @@ function bindTapNavigate(el) {
     touched = true;
 
     if (isSystemScheme(href)) {
-      // 애니메이션은 보여주고, 기본 동작 유지
-      playTapAnimation(el);
+      playTapAnimation(el); // 애니만 보여주고 기본 동작 유지
       return;
     }
-
     handler(e);
   }, { passive: false });
 
@@ -136,20 +99,12 @@ function resetUI() {
 function initAll() {
   initSlider();
   initTaps();
-
-  // 레이아웃 맞춤(이미지 로딩/주소창 변화/회전 대응)
-  updateFooterHeightVar();
-  fitMenuToScreen();
 }
 
 window.addEventListener("DOMContentLoaded", initAll);
-window.addEventListener("load", () => { updateFooterHeightVar(); fitMenuToScreen(); });
-window.addEventListener("resize", () => { updateFooterHeightVar(); fitMenuToScreen(); });
 
-// bfcache(뒤로가기 복원) 포함: 항상 초기화 + 슬라이더 재시작 + 레이아웃 재맞춤
+// bfcache(뒤로가기 복원) 포함: 항상 초기화 + 슬라이더 재시작
 window.addEventListener("pageshow", () => {
   resetUI();
   initSlider();
-  updateFooterHeightVar();
-  fitMenuToScreen();
 });
