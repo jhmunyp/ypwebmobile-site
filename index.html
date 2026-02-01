@@ -29,7 +29,7 @@
     <!-- 메뉴 -->
     <main class="container" aria-label="서비스 메뉴">
       <nav class="menu">
-        <!-- ✅ 전화는 JS가 가로채지 않음(기본 tel 동작) -->
+        <!-- 전화: 브라우저 기본 동작 -->
         <a class="tel-link" href="tel:01082104129">전화 걸기 <span>〉</span></a>
 
         <a href="https://gilchkin.iyes.biz/">객실체크인 <span>〉</span></a>
@@ -47,7 +47,10 @@
       </nav>
     </main>
 
-    <!-- ✅ footer를 wrapper 안으로 넣어서 iOS/카톡 인앱에서도 동일하게 -->
+    <!-- 메뉴-푸터 고정 간격(항상 6px) -->
+    <div class="menu-footer-gap" aria-hidden="true"></div>
+
+    <!-- footer -->
     <footer class="footer-bar" aria-label="하단 고정 BI/CI">
       <a href="https://example.com/bi" class="footer-banner">
         <img src="images/CI/MONAYongPyongmallBI.jpg" alt="YongPyong Mall BI">
