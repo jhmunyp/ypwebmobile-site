@@ -3,7 +3,7 @@ const TAP_DURATION = 180;
 // ===== Tap animation =====
 function playTapAnimation(el) {
   el.classList.remove("tap-anim");
-  void el.offsetWidth; // reflow
+  void el.offsetWidth;
   el.classList.add("tap-anim");
 }
 
@@ -12,13 +12,13 @@ function setLayoutVars() {
   const root = document.documentElement;
   const vv = window.visualViewport;
 
-  // ✅ iOS/카톡 인앱 포함: 실제로 보이는 영역 높이
   const appH = vv ? Math.floor(vv.height) : (window.innerHeight || root.clientHeight || 0);
   root.style.setProperty("--appH", `${appH}px`);
 
   const sliderWrap = document.querySelector(".slider-wrapper");
   const subtitleWrap = document.querySelector(".subtitle-container");
   const footer = document.querySelector(".footer-bar");
+  const gapEl = document.querySelector(".menu-footer-gap");
   const container = document.querySelector(".container");
   const menu = document.querySelector(".menu");
   const links = document.querySelectorAll(".menu a");
@@ -32,6 +32,7 @@ function setLayoutVars() {
     Math.ceil(subtitleWrap.getBoundingClientRect().height);
 
   const footerH = Math.ceil(footer.getBoundingClientRect().height);
+  const gapH = gapEl ? Math.ceil(gapEl.getBoundingClientRect().height) : 0;
 
   const cs = getComputedStyle(container);
   const padTop = parseFloat(cs.paddingTop) || 0;
@@ -40,18 +41,13 @@ function setLayoutVars() {
   const ms = getComputedStyle(menu);
   const rowGap = parseFloat(ms.rowGap) || 0;
 
-  // 메뉴가 쓸 수 있는 높이
-  const menuAvail = appH - topH - footerH - padTop - padBot;
+  // 고정 간격(6px)도 뺀 남은 높이를 메뉴가 사용
+  const menuAvail = appH - topH - footerH - gapH - padTop - padBot;
 
   const gapsTotal = rowGap * (rows - 1);
   let itemH = Math.floor((menuAvail - gapsTotal) / rows);
 
-  // ✅ 메뉴-푸터 사이 여백(너무 넓다 해서 -6 적용)
-  itemH = itemH - 6;
-
-  // 너무 작아지는 걸 방지(가독성 최소치)
   itemH = Math.max(itemH, 36);
-
   root.style.setProperty("--menuItemH", `${itemH}px`);
 }
 
@@ -61,7 +57,7 @@ function initTaps() {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
-    // ✅ 전화는 브라우저 기본 동작(가장 기본적으로 연결)
+    // 전화는 브라우저 기본 동작
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -75,27 +71,20 @@ function initTaps() {
       window.location.href = href;
     };
 
-    el.addEventListener(
-      "touchstart",
-      (e) => {
-        touched = true;
-        if (!href || href === "#") {
-          e.preventDefault();
-          playTapAnimation(el);
-          return;
-        }
+    el.addEventListener("touchstart", (e) => {
+      touched = true;
+      if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
-        setTimeout(go, TAP_DURATION);
-      },
-      { passive: false }
-    );
-
-    el.addEventListener("click", (e) => {
-      if (touched) {
-        touched = false;
         return;
       }
+      e.preventDefault();
+      playTapAnimation(el);
+      setTimeout(go, TAP_DURATION);
+    }, { passive: false });
+
+    el.addEventListener("click", (e) => {
+      if (touched) { touched = false; return; }
       if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
@@ -110,7 +99,7 @@ function initTaps() {
 
 // ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
 function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // ✅ 5초
+  const AUTO_SLIDE_MS = 5000; // 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -129,7 +118,6 @@ function initSliderSwipeOnly() {
     slides.style.transform = `translate3d(${-index * w}px, 0, 0)`;
   };
 
-  // ✅ 자동 슬라이드 시작/정지
   const stopAuto = () => {
     if (autoTimer) clearInterval(autoTimer);
     autoTimer = null;
@@ -142,20 +130,17 @@ function initSliderSwipeOnly() {
     }, AUTO_SLIDE_MS);
   };
 
-  // 초기화
   setTransition(true);
   goTo(0);
   startAuto();
 
-  // ---- 스와이프 ----
-  let startX = 0,
-    startY = 0;
+  let startX = 0, startY = 0;
   let dragging = false;
   let lock = null;
   let lastDX = 0;
 
   const onDown = (e) => {
-    stopAuto(); // ✅ 사용자가 만지면 자동 잠시 멈춤
+    stopAuto();
     dragging = true;
     lock = null;
     lastDX = 0;
@@ -202,7 +187,7 @@ function initSliderSwipeOnly() {
       goTo(index);
     }
 
-    startAuto(); // ✅ 손 떼면 다시 자동 시작
+    startAuto();
   };
 
   slider.style.touchAction = "pan-y";
@@ -211,37 +196,16 @@ function initSliderSwipeOnly() {
   slider.addEventListener("pointerup", onUp);
   slider.addEventListener("pointercancel", onUp);
 
-  // ✅ 탭이 백그라운드로 가면 타이머 정지/복귀 시 재시작
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stopAuto();
     else startAuto();
   });
 
-  // 주소창/회전 등으로 폭 바뀌면 현재 index 재정렬
-  const fix = () => {
-    setTransition(false);
-    goTo(index);
-    setTransition(true);
-  };
+  const fix = () => { setTransition(false); goTo(index); setTransition(true); };
 
-  window.addEventListener("resize", () => {
-    setLayoutVars();
-    fix();
-  });
-
-  window.addEventListener("orientationchange", () =>
-    setTimeout(() => {
-      setLayoutVars();
-      fix();
-    }, 50)
-  );
-
-  window.visualViewport?.addEventListener("resize", () => {
-    setLayoutVars();
-    fix();
-  });
-
-  // 필요하면 외부에서 정지/재시작 가능하도록 반환할 수도 있음 (현재는 안 씀)
+  window.addEventListener("resize", () => { setLayoutVars(); fix(); });
+  window.addEventListener("orientationchange", () => setTimeout(() => { setLayoutVars(); fix(); }, 50));
+  window.visualViewport?.addEventListener("resize", () => { setLayoutVars(); fix(); });
 }
 
 // ===== init =====
@@ -253,6 +217,4 @@ function initAll() {
 
 window.addEventListener("DOMContentLoaded", initAll);
 window.addEventListener("load", setLayoutVars);
-
-// 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
