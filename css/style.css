@@ -1,22 +1,38 @@
+/* ===== Font ===== */
+@font-face {
+  font-family: 'NanumGothic';
+  src: url('../fonts/NanumGothic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 /* ===== Reset ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { width: 100%; height: 100%; font-family: sans-serif; -webkit-text-size-adjust: 100%; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'NanumGothic';
+  -webkit-text-size-adjust: 100%;
+}
+
 a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
 
 /* ===== Variables ===== */
 :root{
-  --appH: 100vh;       /* JS가 실제 보이는 높이(px)로 주입 */
-  --menuItemH: 56px;   /* JS가 남는 공간으로 계산해서 주입 */
-  --menuRowGap: 12px;  /* 줄 간격(px) */
+  --appH: 100vh;
+  --menuItemH: 56px;
+  --menuRowGap: 12px;
 }
 
-/* ===== Scroll OFF (전체 스크롤 금지) ===== */
+/* ===== Scroll OFF ===== */
 html, body{
   overflow: hidden;
   overscroll-behavior: none;
 }
 
-/* ===== Wrapper: 한 화면 고정 ===== */
+/* ===== Wrapper ===== */
 .wrapper{
   height: var(--appH);
   overflow: hidden;
@@ -26,12 +42,12 @@ html, body{
 }
 
 /* ===== Slider ===== */
-.slider-wrapper{ height: 16vh; } /* 필요하면 14~18vh */
+.slider-wrapper{ height: 16vh; }
 .slider{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  touch-action: pan-y; /* 수직 제스처 허용, 수평은 JS가 처리 */
+  touch-action: pan-y;
 }
 .slides{
   display: flex;
@@ -59,10 +75,10 @@ html, body{
   color: #555;
 }
 
-/* ===== Menu (스크롤 없이 화면에 딱 맞게) ===== */
+/* ===== Menu ===== */
 .container{
   flex: 1;
-  overflow: hidden; /* 스크롤 금지 */
+  overflow: hidden;
   padding: 0 4vw;
 }
 
@@ -74,8 +90,8 @@ html, body{
 }
 
 .menu a{
-  height: var(--menuItemH);     /* 핵심: 한 화면에 딱 맞게 */
-  padding: 0 3vw;               /* 세로 패딩 제거하고 높이로 통제 */
+  height: var(--menuItemH);
+  padding: 0 3vw;
   background: #f2f2f2;
   border-radius: 1.8vh;
   font-weight: 700;
@@ -85,7 +101,7 @@ html, body{
   font-size: clamp(10px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
-/* ===== Footer: fixed 제거, wrapper 안에서 바닥 고정 ===== */
+/* ===== Footer ===== */
 .footer-bar{
   margin-top: auto;
   padding-top: 6px;
@@ -111,7 +127,3 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
-
-
-
-
