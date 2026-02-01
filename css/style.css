@@ -87,7 +87,7 @@ html, body{
 
 /* ===== Footer: fixed 제거, wrapper 안에서 바닥 고정 ===== */
 .footer-bar{
-  margin-top: 12px;
+  margin-top: 16px;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -110,5 +110,6 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
+
 
 
