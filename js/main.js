@@ -1,62 +1,37 @@
 const TAP_DURATION = 180;
 
-/* 탭 애니 */
+// ===== Tap animation =====
 function playTapAnimation(el) {
   el.classList.remove("tap-anim");
-  void el.offsetWidth;
+  void el.offsetWidth; // reflow
   el.classList.add("tap-anim");
 }
 
-/* 배너 높이: 첫 배너 이미지 비율로 고정 */
-function setBannerHeightByImage() {
-  const root = document.documentElement;
-  const slider = document.getElementById("slider");
-  const firstImg = document.querySelector("#slides .slide img");
-  if (!slider || !firstImg) return;
-
-  const w = slider.clientWidth || 0;
-  if (!w) return;
-
-  const nw = firstImg.naturalWidth;
-  const nh = firstImg.naturalHeight;
-  if (!nw || !nh) return; // 로딩 전이면 다음 호출에서 반영
-
-  const h = Math.round(w * (nh / nw));
-  root.style.setProperty("--bannerH", `${h}px`);
-}
-
-/* iOS(사파리/카톡)은 visualViewport, 그 외(갤럭시 인터넷)는 innerHeight */
-function getAppHeight() {
-  const vv = window.visualViewport;
-  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-  return isIOS ? Math.floor(vv?.height || window.innerHeight) : window.innerHeight;
-}
-
-/* 화면 높이 + 메뉴 버튼 높이 계산 */
+// ===== 실제 보이는 화면 높이 + 메뉴 버튼 높이 자동 계산 =====
 function setLayoutVars() {
   const root = document.documentElement;
+  const vv = window.visualViewport;
 
-  const appH = getAppHeight();
+  // ✅ iOS/카톡 인앱 포함: 실제로 보이는 영역 높이
+  const appH = vv ? Math.floor(vv.height) : (window.innerHeight || root.clientHeight || 0);
   root.style.setProperty("--appH", `${appH}px`);
-
-  setBannerHeightByImage();
 
   const sliderWrap = document.querySelector(".slider-wrapper");
   const subtitleWrap = document.querySelector(".subtitle-container");
   const footer = document.querySelector(".footer-bar");
-  const gapEl = document.querySelector(".menu-footer-gap");
   const container = document.querySelector(".container");
   const menu = document.querySelector(".menu");
   const links = document.querySelectorAll(".menu a");
 
   if (!sliderWrap || !subtitleWrap || !footer || !container || !menu || links.length === 0) return;
 
+  const rows = Math.ceil(links.length / 2);
+
   const topH =
     Math.ceil(sliderWrap.getBoundingClientRect().height) +
     Math.ceil(subtitleWrap.getBoundingClientRect().height);
 
   const footerH = Math.ceil(footer.getBoundingClientRect().height);
-  const gapH = gapEl ? Math.ceil(gapEl.getBoundingClientRect().height) : 0;
 
   const cs = getComputedStyle(container);
   const padTop = parseFloat(cs.paddingTop) || 0;
@@ -65,23 +40,28 @@ function setLayoutVars() {
   const ms = getComputedStyle(menu);
   const rowGap = parseFloat(ms.rowGap) || 0;
 
-  const menuAvail = appH - topH - footerH - gapH - padTop - padBot;
+  // 메뉴가 쓸 수 있는 높이
+  const menuAvail = appH - topH - footerH - padTop - padBot;
 
-  const cols = 2; // ✅ 2열 고정
-  const rows = Math.ceil(links.length / cols);
+  const gapsTotal = rowGap * (rows - 1);
+  let itemH = Math.floor((menuAvail - gapsTotal) / rows);
 
-  let itemH = Math.floor((menuAvail - rowGap * (rows - 1)) / rows);
+  // ✅ 메뉴-푸터 사이 여백(너무 넓다 해서 -6 적용)
+  itemH = itemH - 6;
+
+  // 너무 작아지는 걸 방지(가독성 최소치)
   itemH = Math.max(itemH, 36);
 
   root.style.setProperty("--menuItemH", `${itemH}px`);
 }
 
-/* 링크 탭 처리: tel은 기본 동작, 나머지는 애니 후 이동 */
+// ===== 링크 처리: tel은 기본 동작 유지(가로채지 않음) =====
 function initTaps() {
   document.querySelectorAll(".menu a, .footer-banner").forEach((el) => {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
+    // ✅ 전화는 브라우저 기본 동작(가장 기본적으로 연결)
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -95,20 +75,27 @@ function initTaps() {
       window.location.href = href;
     };
 
-    el.addEventListener("touchstart", (e) => {
-      touched = true;
-      if (!href || href === "#") {
+    el.addEventListener(
+      "touchstart",
+      (e) => {
+        touched = true;
+        if (!href || href === "#") {
+          e.preventDefault();
+          playTapAnimation(el);
+          return;
+        }
         e.preventDefault();
         playTapAnimation(el);
-        return;
-      }
-      e.preventDefault();
-      playTapAnimation(el);
-      setTimeout(go, TAP_DURATION);
-    }, { passive: false });
+        setTimeout(go, TAP_DURATION);
+      },
+      { passive: false }
+    );
 
     el.addEventListener("click", (e) => {
-      if (touched) { touched = false; return; }
+      if (touched) {
+        touched = false;
+        return;
+      }
       if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
@@ -121,10 +108,9 @@ function initTaps() {
   });
 }
 
-/* 슬라이더: 스와이프 + 5초 자동 */
-function initSlider() {
-  const AUTO_SLIDE_MS = 5000;
-
+// ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
+function initSliderSwipeOnly() {
+  const AUTO_SLIDE_MS = 5000; // ✅ 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -143,6 +129,7 @@ function initSlider() {
     slides.style.transform = `translate3d(${-index * w}px, 0, 0)`;
   };
 
+  // ✅ 자동 슬라이드 시작/정지
   const stopAuto = () => {
     if (autoTimer) clearInterval(autoTimer);
     autoTimer = null;
@@ -150,20 +137,25 @@ function initSlider() {
 
   const startAuto = () => {
     stopAuto();
-    autoTimer = setInterval(() => goTo(index + 1), AUTO_SLIDE_MS);
+    autoTimer = setInterval(() => {
+      goTo(index + 1);
+    }, AUTO_SLIDE_MS);
   };
 
+  // 초기화
   setTransition(true);
   goTo(0);
   startAuto();
 
-  let startX = 0, startY = 0;
+  // ---- 스와이프 ----
+  let startX = 0,
+    startY = 0;
   let dragging = false;
   let lock = null;
   let lastDX = 0;
 
   const onDown = (e) => {
-    stopAuto();
+    stopAuto(); // ✅ 사용자가 만지면 자동 잠시 멈춤
     dragging = true;
     lock = null;
     lastDX = 0;
@@ -210,7 +202,7 @@ function initSlider() {
       goTo(index);
     }
 
-    startAuto();
+    startAuto(); // ✅ 손 떼면 다시 자동 시작
   };
 
   slider.style.touchAction = "pan-y";
@@ -219,39 +211,48 @@ function initSlider() {
   slider.addEventListener("pointerup", onUp);
   slider.addEventListener("pointercancel", onUp);
 
+  // ✅ 탭이 백그라운드로 가면 타이머 정지/복귀 시 재시작
   document.addEventListener("visibilitychange", () => {
     if (document.hidden) stopAuto();
     else startAuto();
   });
 
-  const fix = () => { setTransition(false); goTo(index); setTransition(true); };
+  // 주소창/회전 등으로 폭 바뀌면 현재 index 재정렬
+  const fix = () => {
+    setTransition(false);
+    goTo(index);
+    setTransition(true);
+  };
 
-  window.addEventListener("resize", () => { setLayoutVars(); fix(); });
-  window.addEventListener("orientationchange", () => setTimeout(() => { setLayoutVars(); fix(); }, 50));
-  window.visualViewport?.addEventListener("resize", () => { setLayoutVars(); fix(); });
+  window.addEventListener("resize", () => {
+    setLayoutVars();
+    fix();
+  });
+
+  window.addEventListener("orientationchange", () =>
+    setTimeout(() => {
+      setLayoutVars();
+      fix();
+    }, 50)
+  );
+
+  window.visualViewport?.addEventListener("resize", () => {
+    setLayoutVars();
+    fix();
+  });
+
+  // 필요하면 외부에서 정지/재시작 가능하도록 반환할 수도 있음 (현재는 안 씀)
 }
 
-/* init */
+// ===== init =====
 function initAll() {
   setLayoutVars();
   initTaps();
-  initSlider();
-
-  // 로딩 후 보정(이미지/폰트 반영)
-  setTimeout(setLayoutVars, 120);
-  setTimeout(setLayoutVars, 260);
-
-  // 이미지 로딩으로 높이가 바뀌는 경우 대응
-  if (window.ResizeObserver) {
-    const ro = new ResizeObserver(() => setLayoutVars());
-    const sliderWrap = document.querySelector(".slider-wrapper");
-    const footer = document.querySelector(".footer-bar");
-    if (sliderWrap) ro.observe(sliderWrap);
-    if (footer) ro.observe(footer);
-  }
+  initSliderSwipeOnly();
 }
 
 window.addEventListener("DOMContentLoaded", initAll);
-window.addEventListener("load", () => { setBannerHeightByImage(); setLayoutVars(); });
-window.addEventListener("orientationchange", () => setTimeout(setLayoutVars, 50));
+window.addEventListener("load", setLayoutVars);
+
+// 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
