@@ -3,8 +3,11 @@
 html, body { width: 100%; height: 100%; font-family: sans-serif; -webkit-text-size-adjust: 100%; }
 a { text-decoration: none; color: inherit; }
 
-/* ===== 카톡/크롬 공통: 실제 화면 높이 변수 ===== */
-:root { --appH: 100vh; }
+/* ===== 변수: JS가 실제값 주입 ===== */
+:root{
+  --appH: 100vh;     /* 실제 보이는 화면 높이(px) */
+  --footerH: 0px;    /* footer 실제 높이(px) */
+}
 
 /* ===== 스크롤 절대 금지 ===== */
 html, body {
@@ -22,26 +25,29 @@ a, .menu a, .footer-banner {
   user-select: none;
 }
 
-/* ===== Layout ===== */
+/* ✅ wrapper는 (화면높이 - footer높이) 만큼만 */
 .wrapper{
-  height: var(--appH);      /* ✅ JS가 --appH를 실제 높이로 갱신 */
+  height: calc(var(--appH) - var(--footerH));
   overflow: hidden;
   background: #fff;
+  display: flex;
+  flex-direction: column;
 }
 
-/* ===== Slider (배너 잘림 방지: contain) ===== */
+/* ===== Slider (가로 꽉 차는 느낌: cover) ===== */
 .slider-wrapper{
-  height: 16vh;             /* 필요 시 14~18vh */
+  height: 16vh; /* 필요하면 14~18vh */
 }
 .slider{
   width: 100%;
   height: 100%;
   overflow: hidden;
+  touch-action: pan-y; /* 수평 스와이프는 JS가 처리(세로 제스처는 허용) */
 }
 .slides{
   display: flex;
   height: 100%;
-  transition: transform 0.4s ease;
+  transition: transform 0.35s ease;
   will-change: transform;
   transform: translate3d(0,0,0);
 }
@@ -49,10 +55,9 @@ a, .menu a, .footer-banner {
 .slide img{
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  object-fit: cover;          /* ✅ 꽉 참 */
+  object-position: center top;
   display: block;
-  background: #fff;
 }
 
 /* ===== Subtitle ===== */
@@ -68,6 +73,8 @@ a, .menu a, .footer-banner {
 /* ===== Menu ===== */
 .container{
   padding: 0 4vw 0;
+  flex: 1;
+  overflow: hidden;
 }
 .menu{
   display: flex;
@@ -87,7 +94,7 @@ a, .menu a, .footer-banner {
   align-items: center;
 }
 
-/* ===== Footer fixed (BI/CI) ===== */
+/* ===== Footer fixed ===== */
 .footer-fixed{
   position: fixed;
   left: 0;
