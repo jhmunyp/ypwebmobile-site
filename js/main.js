@@ -57,7 +57,7 @@ function initTaps() {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
-    // ✅ 전화는 브라우저 기본 동작
+    // 전화는 브라우저 기본 동작
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -99,7 +99,7 @@ function initTaps() {
 
 // ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
 function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // ✅ 5초
+  const AUTO_SLIDE_MS = 5000; // 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -218,3 +218,4 @@ function initAll() {
 window.addEventListener("DOMContentLoaded", initAll);
 window.addEventListener("load", setLayoutVars);
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
+
