@@ -3,6 +3,9 @@
 html, body { width: 100%; height: 100%; font-family: sans-serif; -webkit-text-size-adjust: 100%; }
 a { text-decoration: none; color: inherit; }
 
+/* ===== 카톡/크롬 공통: 실제 화면 높이 변수 ===== */
+:root { --appH: 100vh; }
+
 /* ===== 스크롤 절대 금지 ===== */
 html, body {
   overflow: hidden;
@@ -21,14 +24,14 @@ a, .menu a, .footer-banner {
 
 /* ===== Layout ===== */
 .wrapper{
-  height: 100dvh;
+  height: var(--appH);      /* ✅ JS가 --appH를 실제 높이로 갱신 */
   overflow: hidden;
   background: #fff;
 }
 
-/* ===== Slider (위가 잘리기 싫으면 contain) ===== */
+/* ===== Slider (배너 잘림 방지: contain) ===== */
 .slider-wrapper{
-  height: 16vh;              /* 필요하면 15~18vh */
+  height: 16vh;             /* 필요 시 14~18vh */
 }
 .slider{
   width: 100%;
@@ -46,7 +49,7 @@ a, .menu a, .footer-banner {
 .slide img{
   width: 100%;
   height: 100%;
-  object-fit: contain;       /* ✅ 배너 위/아래 안 잘림 */
+  object-fit: contain;
   object-position: center;
   display: block;
   background: #fff;
@@ -84,7 +87,7 @@ a, .menu a, .footer-banner {
   align-items: center;
 }
 
-/* ===== 하단 고정 BI/CI ===== */
+/* ===== Footer fixed (BI/CI) ===== */
 .footer-fixed{
   position: fixed;
   left: 0;
@@ -93,6 +96,8 @@ a, .menu a, .footer-banner {
   z-index: 9999;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 .footer-banner{
   display: block;
@@ -104,7 +109,7 @@ a, .menu a, .footer-banner {
   display: block;
 }
 
-/* ===== Tap animation (살짝 커졌다가 돌아옴) ===== */
+/* ===== Tap animation ===== */
 @keyframes tapPop {
   0%   { transform: scale(1); }
   45%  { transform: scale(1.04); }
