@@ -2,6 +2,14 @@ let sliderTimer = null;
 
 const TAP_DURATION = 180; // CSS tapPop 0.18s
 
+/* ===== 카톡/크롬/삼성인터넷: 실제 보이는 화면 높이 고정 ===== */
+function setAppHeight() {
+  const root = document.documentElement;
+  const vv = window.visualViewport;
+  const h = vv ? vv.height : window.innerHeight;
+  root.style.setProperty("--appH", `${Math.floor(h)}px`);
+}
+
 function playTapAnimation(el) {
   el.classList.remove("tap-anim");
   void el.offsetWidth; // reflow
@@ -26,7 +34,7 @@ function goAfterAnim(el, href) {
   }, TAP_DURATION);
 }
 
-/* ===== 슬라이더 ===== */
+/* ===== 슬라이더 자동 ===== */
 function initSlider() {
   const slides = document.querySelector(".slides");
   if (!slides) return;
@@ -43,7 +51,7 @@ function initSlider() {
   }, 3000);
 }
 
-/* ===== 버튼 탭: 애니메이션 후 이동(단, tel: 등은 즉시) ===== */
+/* ===== 탭: 애니메이션 후 이동 (tel: 등은 즉시) ===== */
 function bindTapNavigate(el) {
   const href = el.getAttribute("href") || "";
 
@@ -55,7 +63,7 @@ function bindTapNavigate(el) {
     }
 
     if (isSystemScheme(href)) {
-      // 시스템 스킴은 iOS 안정성 위해 이동 막지 않음
+      // 시스템 스킴은 iOS/웹뷰에서 지연 이동이 불안정할 수 있어 막지 않음
       return;
     }
 
@@ -72,6 +80,7 @@ function bindTapNavigate(el) {
       playTapAnimation(el); // 애니만 보여주고 기본 동작 유지
       return;
     }
+
     handler(e);
   }, { passive: false });
 
@@ -97,14 +106,25 @@ function resetUI() {
 }
 
 function initAll() {
+  setAppHeight();
   initSlider();
   initTaps();
 }
 
+/* 최초 진입 */
 window.addEventListener("DOMContentLoaded", initAll);
 
-// bfcache(뒤로가기 복원) 포함: 항상 초기화 + 슬라이더 재시작
+/* 주소창/툴바 변화 대응 */
+window.addEventListener("resize", setAppHeight);
+window.addEventListener("orientationchange", setAppHeight);
+
 window.addEventListener("pageshow", () => {
+  setAppHeight();
   resetUI();
   initSlider();
 });
+
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", setAppHeight);
+  window.visualViewport.addEventListener("scroll", setAppHeight);
+}
