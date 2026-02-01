@@ -45,6 +45,7 @@ function setLayoutVars() {
 
   const gapsTotal = rowGap * (rows - 1);
   let itemH = Math.floor((menuAvail - gapsTotal) / rows);
+  itemH = itemH - 10; //  메뉴-푸터 사이 여백(원하는 만큼)
 
   // 너무 작아지면 가독성 최소 확보
   itemH = Math.max(itemH, 38);
@@ -199,3 +200,4 @@ window.addEventListener("load", setLayoutVars);
 
 // 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
+
