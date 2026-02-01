@@ -1,9 +1,23 @@
 let sliderTimer = null;
 
+const TAP_DURATION = 180; // CSS tapPop 0.18s 와 동일
+
 function playTapAnimation(el) {
   el.classList.remove('tap-anim');
   void el.offsetWidth; // reflow
   el.classList.add('tap-anim');
+}
+
+function isSystemScheme(href = "") {
+  // iOS/모바일에서 지연 이동하면 호출이 불안정한 스킴들
+  const h = href.trim().toLowerCase();
+  return (
+    h.startsWith("tel:") ||
+    h.startsWith("mailto:") ||
+    h.startsWith("sms:") ||
+    h.startsWith("facetime:") ||
+    h.startsWith("facetime-audio:")
+  );
 }
 
 function goAfterAnim(el, href, durationMs) {
@@ -15,12 +29,12 @@ function goAfterAnim(el, href, durationMs) {
 
 /* ===== 슬라이더 ===== */
 function initSlider() {
-  const slides = document.querySelector('.slides');
+  const slides = document.querySelector(".slides");
   if (!slides) return;
 
   // 초기화
   let index = 0;
-  slides.style.transform = 'translate3d(0,0,0)';
+  slides.style.transform = "translate3d(0,0,0)";
 
   // 타이머 중복 방지
   if (sliderTimer) clearInterval(sliderTimer);
@@ -32,72 +46,73 @@ function initSlider() {
   }, 3000);
 }
 
-/* ===== 메뉴 버튼: 애니메이션 끝나고 이동 ===== */
-function initMenuButtons() {
-  const DURATION = 180; // CSS tapPop 0.18s
-  document.querySelectorAll('.menu a').forEach(a => {
-    const href = a.getAttribute('href');
+/* ===== 공통: 링크 요소에 "애니메이션 후 이동" 또는 "즉시 이동" 적용 ===== */
+function bindTapNavigate(el) {
+  const href = el.getAttribute("href") || "";
 
-    const handler = (e) => {
-      // 링크 이동 지연
+  const handler = (e) => {
+    if (!href || href === "#") {
+      // 더미 링크면 애니메이션만
       e.preventDefault();
-      goAfterAnim(a, href, DURATION);
-    };
+      playTapAnimation(el);
+      return;
+    }
 
-    // iOS에서 touchstart + click 중복 방지
-    let touched = false;
+    if (isSystemScheme(href)) {
+      // ✅ tel/mailto/sms 등은 iOS 안정성을 위해 "이동 막지 않음"
+      // 애니메이션은 touchstart에서 먼저 보여주고, 기본 동작은 그대로 진행
+      return;
+    }
 
-    a.addEventListener('touchstart', (e) => {
+    // ✅ 일반 링크는 애니메이션 끝나고 이동
+    e.preventDefault();
+    goAfterAnim(el, href, TAP_DURATION);
+  };
+
+  // iOS에서 touchstart + click 중복 방지
+  let touched = false;
+
+  el.addEventListener(
+    "touchstart",
+    (e) => {
       touched = true;
-      handler(e);
-    }, { passive: false });
 
-    a.addEventListener('click', (e) => {
-      if (touched) {
-        touched = false;
-        return;
+      // 시스템 스킴은 기본동작 유지하되 애니메이션은 즉시 보여주기
+      if (isSystemScheme(href)) {
+        playTapAnimation(el);
+        return; // preventDefault 하지 않음
       }
-      handler(e);
-    });
+
+      handler(e); // 일반 링크는 preventDefault + 지연이동
+    },
+    { passive: false }
+  );
+
+  el.addEventListener("click", (e) => {
+    if (touched) {
+      touched = false;
+      return;
+    }
+    handler(e);
   });
 }
 
-/* ===== 하단 배너(BI/CI): 애니메이션 끝나고 이동 ===== */
+/* ===== 메뉴 버튼 ===== */
+function initMenuButtons() {
+  document.querySelectorAll(".menu a").forEach(bindTapNavigate);
+}
+
+/* ===== 하단 배너(BI/CI) ===== */
 function initFooterBanners() {
-  const DURATION = 180; // CSS tapPop 0.18s
-  document.querySelectorAll('.footer-banner').forEach(banner => {
-    const href = banner.getAttribute('href');
-
-    const handler = (e) => {
-      e.preventDefault();
-      goAfterAnim(banner, href, DURATION);
-    };
-
-    let touched = false;
-
-    banner.addEventListener('touchstart', (e) => {
-      touched = true;
-      handler(e);
-    }, { passive: false });
-
-    banner.addEventListener('click', (e) => {
-      if (touched) {
-        touched = false;
-        return;
-      }
-      handler(e);
-    });
-  });
+  document.querySelectorAll(".footer-banner").forEach(bindTapNavigate);
 }
 
 /* ===== 뒤로가기 복귀 시 초기화 ===== */
 function resetUI() {
-  // 애니메이션 클래스 제거
-  document.querySelectorAll('.tap-anim').forEach(el => el.classList.remove('tap-anim'));
+  document.querySelectorAll(".tap-anim").forEach((el) => el.classList.remove("tap-anim"));
 
-  // 슬라이더 첫 장으로
-  const slides = document.querySelector('.slides');
-  if (slides) slides.style.transform = 'translate3d(0,0,0)';
+  const slides = document.querySelector(".slides");
+  if (slides) slides.style.transform = "translate3d(0,0,0)";
 }
 
 function initAll() {
@@ -106,10 +121,10 @@ function initAll() {
   initFooterBanners();
 }
 
-window.addEventListener('DOMContentLoaded', initAll);
+window.addEventListener("DOMContentLoaded", initAll);
 
-// bfcache(뒤로가기 복원) 포함: 항상 초기화+재시작
-window.addEventListener('pageshow', () => {
+// bfcache(뒤로가기 복원) 포함: 항상 초기화 + 슬라이더 재시작
+window.addEventListener("pageshow", () => {
   resetUI();
   initSlider();
 });
