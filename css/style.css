@@ -75,7 +75,7 @@ html, body{
 }
 
 .menu a{
-  height: var(--menuItemH); /* 화면에 딱 맞게 */
+  height: var(--menuItemH); /* ✅ 화면에 딱 맞게 */
   padding: 0 3vw;
   background: #f2f2f2;
   border-radius: 1.8vh;
@@ -118,4 +118,3 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
-
