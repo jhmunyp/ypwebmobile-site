@@ -5,33 +5,29 @@ a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transpar
 
 /* ===== Variables ===== */
 :root{
-  --appH: 100vh;          /* JS 주입 */
-  --bannerH: 140px;       /* JS가 첫 배너 이미지 비율로 주입 */
-  --menuItemH: 56px;      /* JS 주입 */
-  --menuRowGap: 12px;
-  --menuFooterGap: 6px;
+  --appH: 100vh;        /* JS가 실제 보이는 높이(px)로 주입 */
+  --menuItemH: 56px;    /* JS가 남는 공간으로 계산해서 주입 */
+  --menuRowGap: 12px;   /* 메뉴 줄 간격(px) */
+  --menuFooterGap: 6px; /* ✅ 메뉴-푸터 간격 고정 */
 }
 
 /* ===== Scroll OFF ===== */
 html, body{
   overflow: hidden;
   overscroll-behavior: none;
-  background: #fff;
 }
 
 /* ===== Wrapper ===== */
 .wrapper{
   height: var(--appH);
   overflow: hidden;
+  background: #fff;
   display: flex;
   flex-direction: column;
-  background: #fff;
 }
 
 /* ===== Slider ===== */
-.slider-wrapper{
-  height: var(--bannerH); /* ✅ vh 대신 이미지 비율 기반 */
-}
+.slider-wrapper{ height: 16vh; } /* 필요하면 14~18vh */
 .slider{
   width: 100%;
   height: 100%;
@@ -67,20 +63,19 @@ html, body{
 /* ===== Menu ===== */
 .container{
   flex: 1;
-  overflow: hidden;
+  overflow: hidden; /* 스크롤 금지 */
   padding: 0 4vw;
-  min-height: 0; /* ✅ 겹침/밀림 방지 */
 }
 
 .menu{
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* ✅ 항상 2열 */
+  grid-template-columns: 1fr 1fr;
   column-gap: 4%;
   row-gap: var(--menuRowGap);
 }
 
 .menu a{
-  height: var(--menuItemH);
+  height: var(--menuItemH); /* ✅ 화면에 딱 맞게 */
   padding: 0 3vw;
   background: #f2f2f2;
   border-radius: 1.8vh;
@@ -91,25 +86,35 @@ html, body{
   font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
-/* ✅ 메뉴-푸터 고정 간격 */
+/* ✅ 메뉴-푸터 사이 고정 간격 */
 .menu-footer-gap{
   height: var(--menuFooterGap);
   flex: 0 0 auto;
+  background: transparent;
 }
 
 /* ===== Footer ===== */
 .footer-bar{
-  flex: 0 0 auto;
+  margin-top: auto;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
 }
-.footer-banner{ display: block; width: 100%; line-height: 0; }
-.footer-banner img{ width: 100%; display: block; }
+.footer-banner{
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+.footer-banner img{
+  width: 100%;
+  display: block;
+}
 
 /* ===== Tap animation ===== */
 @keyframes tapPop {
-  0% { transform: scale(1); }
-  45% { transform: scale(1.04); }
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.04); }
   100% { transform: scale(1); }
 }
-.tap-anim{ animation: tapPop 0.18s ease-out; }
+.tap-anim{
+  animation: tapPop 0.18s ease-out;
+}
