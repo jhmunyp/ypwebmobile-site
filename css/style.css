@@ -82,13 +82,13 @@ html, body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
+  font-size: clamp(10px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
 /* ===== Footer: fixed 제거, wrapper 안에서 바닥 고정 ===== */
 .footer-bar{
   margin-top: auto;
-  padding-top: 12px;
+  padding-top: 6px;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
 }
@@ -111,5 +111,6 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
+
 
 
