@@ -37,7 +37,7 @@ html, body{
   height: var(--appH);
   overflow: hidden;
 
-  /* ✅ BG 이미지 */
+  /* BG 이미지 */
   background: url('../images/BG/bg.jpg') center center / cover no-repeat;
 
   display: flex;
