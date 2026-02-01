@@ -2,40 +2,31 @@
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body {
   width: 100%;
-  height: 100%;
   font-family: sans-serif;
-  -webkit-text-size-adjust: 100%;
   overflow-x: hidden;
-  -webkit-overflow-scrolling: touch;
 }
-a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
-
-/* ===== wrapper ===== */
-.wrapper {
-  min-height: 100%;
-  background: #fff;
-}
+a { text-decoration: none; color: inherit; }
 
 /* ===== 슬라이더 ===== */
-.slider-wrapper {
-  width: 100%;
-  aspect-ratio: 16 / 9;
-}
-.slider { width: 100%; overflow: hidden; }
+.slider-wrapper { width: 100%; aspect-ratio: 16 / 9; }
+.slider { width: 100%; height: 100%; overflow: hidden; }
 .slides {
   display: flex;
+  height: 100%;
   transition: transform 0.4s ease;
 }
-.slide { min-width: 100%; }
+.slide { flex: 0 0 100%; }
 .slide img {
   width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
 }
 
 /* ===== 텍스트 ===== */
 .subtitle-container {
   text-align: center;
-  margin: 2vw 0 4vw;
+  margin: 3vw 0 4vw;
 }
 .subtitle {
   font-size: 3.5vw;
@@ -44,7 +35,7 @@ a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transpar
 
 /* ===== 메뉴 ===== */
 .container {
-  padding: 0 4vw 32vw;
+  padding: 0 4vw 6vw; /* ❗ 중요: 하단 여백 크게 주면 안 됨 */
 }
 .menu {
   display: flex;
@@ -53,6 +44,7 @@ a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transpar
 }
 .menu a {
   flex: 0 0 calc(50% - 2%);
+  margin-bottom: 4vw;
   padding: 4vw 3vw;
   background: #f2f2f2;
   border-radius: 2.5vw;
@@ -61,43 +53,15 @@ a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transpar
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 4vw;
-  transition: transform 0.1s ease;
 }
 
-/* ===== 하단 고정 버튼 ===== */
-.bottom-buttons {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+/* ===== 하단 배너 (스샷 그대로) ===== */
+.footer-banner {
+  display: block;
   width: 100%;
-  transform: translateZ(0);
-  z-index: 100;
+  line-height: 0; /* ❗ 이미지 사이 틈 제거 */
 }
-
-.bottom-btn {
+.footer-banner img {
   width: 100%;
   display: block;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-
-.bottom-btn img {
-  width: 100%;
-  display: block;
-  transform: translateZ(0);
-}
-
-/* ===== Bounce 애니메이션 ===== */
-@keyframes pressBounce {
-  0%   { transform: translate3d(0,0,0) scale(1); }
-  40%  { transform: translate3d(0,0,0) scale(1.04); }
-  70%  { transform: translate3d(0,0,0) scale(0.98); }
-  100% { transform: translate3d(0,0,0) scale(1); }
-}
-
-.bottom-btn.bounce {
-  animation: pressBounce 0.28s ease-out;
 }
