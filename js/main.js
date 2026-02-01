@@ -12,7 +12,7 @@ function setLayoutVars() {
   const root = document.documentElement;
   const vv = window.visualViewport;
 
-  // ✅ iOS/카톡 인앱 포함: 실제로 보이는 영역 높이
+  // iOS/카톡 인앱 포함: 실제로 보이는 영역 높이
   const appH = vv ? Math.floor(vv.height) : (window.innerHeight || root.clientHeight || 0);
   root.style.setProperty("--appH", `${appH}px`);
 
@@ -59,7 +59,7 @@ function initTaps() {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
-    // ✅ 전화는 브라우저 기본 동작(가장 기본적으로 연결)
+    // 전화는 브라우저 기본 동작(가장 기본적으로 연결)
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -200,5 +200,6 @@ window.addEventListener("load", setLayoutVars);
 
 // 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
+
 
 
