@@ -62,7 +62,7 @@ html, body{
 /* ===== Menu (스크롤 없이 화면에 딱 맞게) ===== */
 .container{
   flex: 1;
-  overflow: hidden; /* ✅ 스크롤 금지 */
+  overflow: hidden; /* 스크롤 금지 */
   padding: 0 4vw;
 }
 
@@ -74,7 +74,7 @@ html, body{
 }
 
 .menu a{
-  height: var(--menuItemH);     /* ✅ 핵심: 한 화면에 딱 맞게 */
+  height: var(--menuItemH);     /* 핵심: 한 화면에 딱 맞게 */
   padding: 0 3vw;               /* 세로 패딩 제거하고 높이로 통제 */
   background: #f2f2f2;
   border-radius: 1.8vh;
@@ -111,6 +111,7 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
+
 
 
 
