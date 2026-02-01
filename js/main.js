@@ -103,6 +103,7 @@ function initTaps() {
 
 // ===== 슬라이더: 스와이프만 (자동 없음), 튐 방지(px 기반) =====
 function initSliderSwipeOnly() {
+  const AUTO_SLIDE_MS = 5000; // 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -202,5 +203,6 @@ window.addEventListener("load", setLayoutVars);
 
 // 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
+
 
 
