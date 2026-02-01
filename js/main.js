@@ -46,11 +46,8 @@ function setLayoutVars() {
   const gapsTotal = rowGap * (rows - 1);
   let itemH = Math.floor((menuAvail - gapsTotal) / rows);
 
-  // ✅ 메뉴-푸터 사이 여백(너무 넓다 해서 -6 적용)
-  itemH = itemH - 6;
-
-  // 너무 작아지는 걸 방지(가독성 최소치)
-  itemH = Math.max(itemH, 36);
+  // 너무 작아지면 가독성 최소 확보
+  itemH = Math.max(itemH, 38);
 
   root.style.setProperty("--menuItemH", `${itemH}px`);
 }
@@ -75,27 +72,20 @@ function initTaps() {
       window.location.href = href;
     };
 
-    el.addEventListener(
-      "touchstart",
-      (e) => {
-        touched = true;
-        if (!href || href === "#") {
-          e.preventDefault();
-          playTapAnimation(el);
-          return;
-        }
+    el.addEventListener("touchstart", (e) => {
+      touched = true;
+      if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
-        setTimeout(go, TAP_DURATION);
-      },
-      { passive: false }
-    );
-
-    el.addEventListener("click", (e) => {
-      if (touched) {
-        touched = false;
         return;
       }
+      e.preventDefault();
+      playTapAnimation(el);
+      setTimeout(go, TAP_DURATION);
+    }, { passive: false });
+
+    el.addEventListener("click", (e) => {
+      if (touched) { touched = false; return; }
       if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
@@ -108,16 +98,14 @@ function initTaps() {
   });
 }
 
-// ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
+// ===== 슬라이더: 스와이프만 (자동 없음), 튐 방지(px 기반) =====
 function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // ✅ 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
 
   const total = slides.children.length;
   let index = 0;
-  let autoTimer = null;
 
   const setTransition = (on) => {
     slides.style.transition = on ? "transform 0.25s ease" : "none";
@@ -129,33 +117,15 @@ function initSliderSwipeOnly() {
     slides.style.transform = `translate3d(${-index * w}px, 0, 0)`;
   };
 
-  // ✅ 자동 슬라이드 시작/정지
-  const stopAuto = () => {
-    if (autoTimer) clearInterval(autoTimer);
-    autoTimer = null;
-  };
-
-  const startAuto = () => {
-    stopAuto();
-    autoTimer = setInterval(() => {
-      goTo(index + 1);
-    }, AUTO_SLIDE_MS);
-  };
-
-  // 초기화
   setTransition(true);
   goTo(0);
-  startAuto();
 
-  // ---- 스와이프 ----
-  let startX = 0,
-    startY = 0;
+  let startX = 0, startY = 0;
   let dragging = false;
   let lock = null;
   let lastDX = 0;
 
   const onDown = (e) => {
-    stopAuto(); // ✅ 사용자가 만지면 자동 잠시 멈춤
     dragging = true;
     lock = null;
     lastDX = 0;
@@ -191,18 +161,17 @@ function initSliderSwipeOnly() {
 
     setTransition(true);
 
-    if (lock === "h") {
-      const w = slider.clientWidth || 1;
-      const threshold = w * 0.2;
-
-      if (lastDX <= -threshold) goTo(index + 1);
-      else if (lastDX >= threshold) goTo(index - 1);
-      else goTo(index);
-    } else {
+    if (lock !== "h") {
       goTo(index);
+      return;
     }
 
-    startAuto(); // ✅ 손 떼면 다시 자동 시작
+    const w = slider.clientWidth || 1;
+    const threshold = w * 0.2;
+
+    if (lastDX <= -threshold) goTo(index + 1);
+    else if (lastDX >= threshold) goTo(index - 1);
+    else goTo(index);
   };
 
   slider.style.touchAction = "pan-y";
@@ -211,37 +180,11 @@ function initSliderSwipeOnly() {
   slider.addEventListener("pointerup", onUp);
   slider.addEventListener("pointercancel", onUp);
 
-  // ✅ 탭이 백그라운드로 가면 타이머 정지/복귀 시 재시작
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) stopAuto();
-    else startAuto();
-  });
-
   // 주소창/회전 등으로 폭 바뀌면 현재 index 재정렬
-  const fix = () => {
-    setTransition(false);
-    goTo(index);
-    setTransition(true);
-  };
-
-  window.addEventListener("resize", () => {
-    setLayoutVars();
-    fix();
-  });
-
-  window.addEventListener("orientationchange", () =>
-    setTimeout(() => {
-      setLayoutVars();
-      fix();
-    }, 50)
-  );
-
-  window.visualViewport?.addEventListener("resize", () => {
-    setLayoutVars();
-    fix();
-  });
-
-  // 필요하면 외부에서 정지/재시작 가능하도록 반환할 수도 있음 (현재는 안 씀)
+  const fix = () => { setTransition(false); goTo(index); setTransition(true); };
+  window.addEventListener("resize", () => { setLayoutVars(); fix(); });
+  window.addEventListener("orientationchange", () => setTimeout(() => { setLayoutVars(); fix(); }, 50));
+  window.visualViewport?.addEventListener("resize", () => { setLayoutVars(); fix(); });
 }
 
 // ===== init =====
