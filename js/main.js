@@ -46,11 +46,14 @@ function setLayoutVars() {
   const gapsTotal = rowGap * (rows - 1);
   let itemH = Math.floor((menuAvail - gapsTotal) / rows);
 
-  // 너무 작아지면 가독성 최소 확보
-  itemH = Math.max(itemH, 38);
+  //  메뉴-푸터 사이 여백 만들기(원하는 만큼)
+  itemH = itemH - 14;     // 10~18 사이로 조절 (추천: 14)
+
+  // 너무 작아지는 걸 방지(가독성 최소치)
+  itemH = Math.max(itemH, 36);
 
   root.style.setProperty("--menuItemH", `${itemH}px`);
-}
+  }
 
 // ===== 링크 처리: tel은 기본 동작 유지(가로채지 않음) =====
 function initTaps() {
@@ -199,3 +202,4 @@ window.addEventListener("load", setLayoutVars);
 
 // 카톡/사파리 주소창 변화 대응
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
+
