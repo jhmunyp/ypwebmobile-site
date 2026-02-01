@@ -65,6 +65,7 @@ html, body{
   flex: 1;
   overflow: hidden; /* 스크롤 금지 */
   padding: 0 4vw;
+  min-height: 0;
 }
 
 .menu{
@@ -118,3 +119,4 @@ html, body{
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
+
