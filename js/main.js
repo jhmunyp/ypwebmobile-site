@@ -1,37 +1,40 @@
 const TAP_DURATION = 180;
 
-// ===== Tap animation =====
 function playTapAnimation(el) {
   el.classList.remove("tap-anim");
   void el.offsetWidth;
   el.classList.add("tap-anim");
 }
 
-// ===== 실제 보이는 화면 높이 + 메뉴 버튼 높이 자동 계산 =====
+/* ✅ 배너 높이: 첫 배너 이미지의 natural 비율로 고정 */
+function setBannerHeightByImage() {
+  const root = document.documentElement;
+  const slider = document.getElementById("slider");
+  const firstImg = document.querySelector("#slides .slide img");
+  if (!slider || !firstImg) return;
+
+  const w = slider.clientWidth || 0;
+  if (!w) return;
+
+  const nw = firstImg.naturalWidth;
+  const nh = firstImg.naturalHeight;
+  if (!nw || !nh) return; // 로딩 전이면 다음 호출에서 잡힘
+
+  const h = Math.round(w * (nh / nw));
+  root.style.setProperty("--bannerH", `${h}px`);
+}
+
+/* ✅ iOS(사파리/카톡) + 삼성인터넷 중심 레이아웃 계산 */
 function setLayoutVars() {
   const root = document.documentElement;
   const vv = window.visualViewport;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-  // ✅ 크롬만 튀는 문제 해결: 안드 크롬은 innerHeight 우선
-  const ua = navigator.userAgent.toLowerCase();
-  const isAndroid = ua.includes("android");
-  const isSamsung = ua.includes("samsungbrowser");
-  const isChrome = ua.includes("chrome") && !isSamsung;
-  const isAndroidChrome = isAndroid && isChrome;
-
-  const hInner = window.innerHeight || 0;
-  const hClient = root.clientHeight || 0;
-
-  let appH;
-  if (isAndroidChrome) {
-    // ✅ 안드 크롬: innerHeight가 가장 안정
-    appH = hInner || hClient;
-  } else {
-    // ✅ iOS/카톡 인앱/삼성인터넷 등: visualViewport 우선
-    appH = vv ? Math.floor(vv.height) : (hInner || hClient);
-  }
-
+  const appH = isIOS ? Math.floor(vv?.height || window.innerHeight) : window.innerHeight;
   root.style.setProperty("--appH", `${appH}px`);
+
+  // 배너 높이(이미지 비율)
+  setBannerHeightByImage();
 
   const sliderWrap = document.querySelector(".slider-wrapper");
   const subtitleWrap = document.querySelector(".subtitle-container");
@@ -42,8 +45,6 @@ function setLayoutVars() {
   const links = document.querySelectorAll(".menu a");
 
   if (!sliderWrap || !subtitleWrap || !footer || !container || !menu || links.length === 0) return;
-
-  const rows = Math.ceil(links.length / 2);
 
   const topH =
     Math.ceil(sliderWrap.getBoundingClientRect().height) +
@@ -59,25 +60,25 @@ function setLayoutVars() {
   const ms = getComputedStyle(menu);
   const rowGap = parseFloat(ms.rowGap) || 0;
 
-  // ✅ 고정 간격(6px)도 뺀 남은 높이를 메뉴가 사용
   const menuAvail = appH - topH - footerH - gapH - padTop - padBot;
 
-  const gapsTotal = rowGap * (rows - 1);
-  let itemH = Math.floor((menuAvail - gapsTotal) / rows);
+  // ✅ 항상 2열 기준으로만 계산
+  const cols = 2;
+  const rows = Math.ceil(links.length / cols);
 
-  // 너무 작아지는 걸 방지
+  let itemH = Math.floor((menuAvail - rowGap * (rows - 1)) / rows);
   itemH = Math.max(itemH, 36);
 
   root.style.setProperty("--menuItemH", `${itemH}px`);
 }
 
-// ===== 링크 처리: tel은 기본 동작 유지(가로채지 않음) =====
+/* ✅ 전화는 기본 tel 동작 유지, 나머지는 탭 애니 후 이동 */
 function initTaps() {
   document.querySelectorAll(".menu a, .footer-banner").forEach((el) => {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
-    // ✅ 전화는 브라우저 기본 동작
+    // 전화: 기본 동작
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -91,27 +92,20 @@ function initTaps() {
       window.location.href = href;
     };
 
-    el.addEventListener(
-      "touchstart",
-      (e) => {
-        touched = true;
-        if (!href || href === "#") {
-          e.preventDefault();
-          playTapAnimation(el);
-          return;
-        }
+    el.addEventListener("touchstart", (e) => {
+      touched = true;
+      if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
-        setTimeout(go, TAP_DURATION);
-      },
-      { passive: false }
-    );
-
-    el.addEventListener("click", (e) => {
-      if (touched) {
-        touched = false;
         return;
       }
+      e.preventDefault();
+      playTapAnimation(el);
+      setTimeout(go, TAP_DURATION);
+    }, { passive: false });
+
+    el.addEventListener("click", (e) => {
+      if (touched) { touched = false; return; }
       if (!href || href === "#") {
         e.preventDefault();
         playTapAnimation(el);
@@ -124,9 +118,9 @@ function initTaps() {
   });
 }
 
-// ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
-function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // 5초
+/* ✅ 슬라이더: 스와이프 + 5초 자동 */
+function initSlider() {
+  const AUTO_SLIDE_MS = 5000;
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -226,7 +220,6 @@ function initSliderSwipeOnly() {
     else startAuto();
   });
 
-  // 폭 바뀌면 현재 index 재정렬
   const fix = () => { setTransition(false); goTo(index); setTransition(true); };
 
   window.addEventListener("resize", () => { setLayoutVars(); fix(); });
@@ -234,17 +227,17 @@ function initSliderSwipeOnly() {
   window.visualViewport?.addEventListener("resize", () => { setLayoutVars(); fix(); });
 }
 
-// ===== init =====
+/* ===== init ===== */
 function initAll() {
   setLayoutVars();
   initTaps();
-  initSliderSwipeOnly();
+  initSlider();
 
-  // ✅ 크롬에서 첫 렌더 후 viewport 값이 늦게 안정되는 케이스 보정
-  setTimeout(setLayoutVars, 200);
-  setTimeout(setLayoutVars, 600);
+  // 이미지/폰트 적용 등으로 높이 변하면 한 번 더 보정
+  setTimeout(setLayoutVars, 80);
+  setTimeout(setLayoutVars, 220);
 
-  // ✅ footer/배너 이미지 로딩으로 높이가 바뀌면 재계산
+  // 배너/푸터 이미지 로딩으로 높이 바뀌는 경우 자동 보정
   if (window.ResizeObserver) {
     const ro = new ResizeObserver(() => setLayoutVars());
     const sliderWrap = document.querySelector(".slider-wrapper");
@@ -255,7 +248,8 @@ function initAll() {
 }
 
 window.addEventListener("DOMContentLoaded", initAll);
-window.addEventListener("load", setLayoutVars);
+window.addEventListener("load", () => { setBannerHeightByImage(); setLayoutVars(); });
 
-// 카톡/사파리 주소창 변화 대응
+window.addEventListener("resize", setLayoutVars);
+window.addEventListener("orientationchange", () => setTimeout(setLayoutVars, 50));
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
