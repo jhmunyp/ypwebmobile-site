@@ -31,33 +31,17 @@ html, body{
   overflow: hidden;
   overscroll-behavior: none;
 }
-ㄴ
+
 /* ===== Wrapper ===== */
 .wrapper{
   height: var(--appH);
   overflow: hidden;
 
-  /* BG 이미지 추가 */
+  /* ✅ BG 이미지 */
   background: url('../images/BG/bg.jpg') center center / cover no-repeat;
 
   display: flex;
   flex-direction: column;
-  position: relative;
-}
-
-/* BG 위 가독성용 오버레이 */
-.wrapper::before{
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.85); /* 밝게 */
-  z-index: 0;
-}
-
-/* 콘텐츠를 BG 위로 */
-.wrapper > *{
-  position: relative;
-  z-index: 1;
 }
 
 /* ===== Slider ===== */
