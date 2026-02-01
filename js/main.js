@@ -41,7 +41,7 @@ function setLayoutVars() {
   const ms = getComputedStyle(menu);
   const rowGap = parseFloat(ms.rowGap) || 0;
 
-  // ✅ 고정 간격(6px)도 뺀 남은 높이를 메뉴가 사용
+  // 고정 간격(6px)도 뺀 남은 높이를 메뉴가 사용
   const menuAvail = appH - topH - footerH - gapH - padTop - padBot;
 
   const gapsTotal = rowGap * (rows - 1);
@@ -99,7 +99,7 @@ function initTaps() {
 
 // ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
 function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // 5초
+  const AUTO_SLIDE_MS = 5000; // ✅ 5초
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -218,4 +218,3 @@ function initAll() {
 window.addEventListener("DOMContentLoaded", initAll);
 window.addEventListener("load", setLayoutVars);
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
-
