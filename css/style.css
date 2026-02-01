@@ -1,60 +1,37 @@
-/* ===== Font (NanumGothic woff2) ===== */
-@font-face{
-  font-family: "NanumGothic";
-  src: url("../fonts/NanumGothic.woff2") format("woff2");
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face{
-  font-family: "NanumGothic";
-  src: url("../fonts/NanumGothic-Bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
-  font-display: swap;
-}
-
 /* ===== Reset ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html, body {
-  width: 100%;
-  height: 100%;
-  font-family: "NanumGothic", sans-serif;
-  -webkit-text-size-adjust: 100%;
-  background: #fff;
-}
+html, body { width: 100%; height: 100%; font-family: sans-serif; -webkit-text-size-adjust: 100%; }
 a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
 
-/* ===== Vars (JS inject) ===== */
+/* ===== Variables ===== */
 :root{
-  --appH: 100vh;
-  --bannerH: 140px;  /* JS가 배너 이미지 비율로 주입 */
-  --menuItemH: 56px; /* JS가 계산해 주입 */
-  --menuRowGap: 12px;
-  --menuFooterGap: 6px;
+  --appH: 100vh;       /* JS가 실제 보이는 높이(px)로 주입 */
+  --menuItemH: 56px;   /* JS가 남는 공간으로 계산해서 주입 */
+  --menuRowGap: 12px;  /* 줄 간격(px) */
 }
 
-/* ===== Scroll OFF ===== */
+/* ===== Scroll OFF (전체 스크롤 금지) ===== */
 html, body{
   overflow: hidden;
   overscroll-behavior: none;
 }
 
-/* ===== Layout ===== */
+/* ===== Wrapper: 한 화면 고정 ===== */
 .wrapper{
   height: var(--appH);
   overflow: hidden;
+  background: #fff;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== Banner ===== */
-.slider-wrapper{ height: var(--bannerH); }
+/* ===== Slider ===== */
+.slider-wrapper{ height: 16vh; } /* 필요하면 14~18vh */
 .slider{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  touch-action: pan-y;
+  touch-action: pan-y; /* 수직 제스처 허용, 수평은 JS가 처리 */
 }
 .slides{
   display: flex;
@@ -80,54 +57,56 @@ html, body{
 .subtitle{
   font-size: 1.9vh;
   color: #555;
-  font-weight: 400;
 }
 
-/* ===== Menu ===== */
+/* ===== Menu (스크롤 없이 화면에 딱 맞게) ===== */
 .container{
   flex: 1;
-  overflow: hidden;
+  overflow: hidden; /* ✅ 스크롤 금지 */
   padding: 0 4vw;
-  min-height: 0;
 }
 
 .menu{
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 항상 2열 */
+  grid-template-columns: 1fr 1fr;
   column-gap: 4%;
   row-gap: var(--menuRowGap);
 }
+
 .menu a{
-  height: var(--menuItemH);
-  padding: 0 3vw;
+  height: var(--menuItemH);     /* ✅ 핵심: 한 화면에 딱 맞게 */
+  padding: 0 3vw;               /* 세로 패딩 제거하고 높이로 통제 */
   background: #f2f2f2;
   border-radius: 1.8vh;
-  font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
   font-weight: 700;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
-/* 메뉴-푸터 간격 */
-.menu-footer-gap{
-  height: var(--menuFooterGap);
-  flex: 0 0 auto;
-}
-
-/* ===== Footer ===== */
+/* ===== Footer: fixed 제거, wrapper 안에서 바닥 고정 ===== */
 .footer-bar{
-  flex: 0 0 auto;
+  margin-top: auto;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
 }
-.footer-banner{ display: block; width: 100%; line-height: 0; }
-.footer-banner img{ width: 100%; display: block; }
+.footer-banner{
+  display: block;
+  width: 100%;
+  line-height: 0;
+}
+.footer-banner img{
+  width: 100%;
+  display: block;
+}
 
 /* ===== Tap animation ===== */
 @keyframes tapPop {
-  0% { transform: scale(1); }
-  45% { transform: scale(1.04); }
+  0%   { transform: scale(1); }
+  45%  { transform: scale(1.04); }
   100% { transform: scale(1); }
 }
-.tap-anim{ animation: tapPop 0.18s ease-out; }
+.tap-anim{
+  animation: tapPop 0.18s ease-out;
+}
