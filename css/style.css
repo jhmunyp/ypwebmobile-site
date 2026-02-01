@@ -1,53 +1,42 @@
 /* ===== Reset ===== */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 html, body { width: 100%; height: 100%; font-family: sans-serif; -webkit-text-size-adjust: 100%; }
-a { text-decoration: none; color: inherit; }
+a { text-decoration: none; color: inherit; -webkit-tap-highlight-color: transparent; }
 
-/* ===== 변수: JS가 실제값 주입 ===== */
+/* ===== Variables ===== */
 :root{
-  --appH: 100vh;     /* 실제 보이는 화면 높이(px) */
-  --footerH: 0px;    /* footer 실제 높이(px) */
+  --appH: 100vh;       /* JS가 실제 보이는 높이(px)로 주입 */
+  --menuItemH: 56px;   /* JS가 남는 공간으로 계산해서 주입 */
+  --menuRowGap: 12px;  /* 줄 간격(px) */
 }
 
-/* ===== 스크롤 절대 금지 ===== */
-html, body {
+/* ===== Scroll OFF (전체 스크롤 금지) ===== */
+html, body{
   overflow: hidden;
   overscroll-behavior: none;
 }
 
-/* ===== 탭 하이라이트(파란 영역) 제거 ===== */
-a, .menu a, .footer-banner {
-  -webkit-tap-highlight-color: transparent;
-  outline: none;
-}
-.menu a, .footer-banner {
-  -webkit-user-select: none;
-  user-select: none;
-}
-
-/* ✅ wrapper는 (화면높이 - footer높이) 만큼만 */
+/* ===== Wrapper: 한 화면 고정 ===== */
 .wrapper{
-  height: calc(var(--appH) - var(--footerH));
+  height: var(--appH);
   overflow: hidden;
   background: #fff;
   display: flex;
   flex-direction: column;
 }
 
-/* ===== Slider (가로 꽉 차는 느낌: cover) ===== */
-.slider-wrapper{
-  height: 16vh; /* 필요하면 14~18vh */
-}
+/* ===== Slider ===== */
+.slider-wrapper{ height: 16vh; } /* 필요하면 14~18vh */
 .slider{
   width: 100%;
   height: 100%;
   overflow: hidden;
-  touch-action: pan-y; /* 수평 스와이프는 JS가 처리(세로 제스처는 허용) */
+  touch-action: pan-y; /* 수직 제스처 허용, 수평은 JS가 처리 */
 }
 .slides{
   display: flex;
   height: 100%;
-  transition: transform 0.35s ease;
+  transition: transform 0.25s ease;
   will-change: transform;
   transform: translate3d(0,0,0);
 }
@@ -55,7 +44,7 @@ a, .menu a, .footer-banner {
 .slide img{
   width: 100%;
   height: 100%;
-  object-fit: cover;          /* ✅ 꽉 참 */
+  object-fit: cover;
   object-position: center top;
   display: block;
 }
@@ -63,48 +52,44 @@ a, .menu a, .footer-banner {
 /* ===== Subtitle ===== */
 .subtitle-container{
   text-align: center;
-  margin: 1.4vh 0 1.8vh;
+  margin: 1.2vh 0 1.4vh;
 }
 .subtitle{
   font-size: 1.9vh;
   color: #555;
 }
 
-/* ===== Menu ===== */
+/* ===== Menu (스크롤 없이 화면에 딱 맞게) ===== */
 .container{
-  padding: 0 4vw 0;
   flex: 1;
-  overflow: hidden;
+  overflow: hidden; /* ✅ 스크롤 금지 */
+  padding: 0 4vw;
 }
+
 .menu{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 4%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 4%;
+  row-gap: var(--menuRowGap);
 }
+
 .menu a{
-  flex: 0 0 calc(50% - 2%);
-  margin-bottom: 1.8vh;
-  padding: 1.8vh 3vw;
+  height: var(--menuItemH);     /* ✅ 핵심: 한 화면에 딱 맞게 */
+  padding: 0 3vw;               /* 세로 패딩 제거하고 높이로 통제 */
   background: #f2f2f2;
   border-radius: 1.8vh;
-  font-size: 1.9vh;
   font-weight: 700;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-size: clamp(12px, calc(var(--menuItemH) * 0.30), 18px);
 }
 
-/* ===== Footer fixed ===== */
-.footer-fixed{
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
+/* ===== Footer: fixed 제거, wrapper 안에서 바닥 고정 ===== */
+.footer-bar{
+  margin-top: auto;
   background: #fff;
   padding-bottom: env(safe-area-inset-bottom);
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
 }
 .footer-banner{
   display: block;
@@ -125,4 +110,3 @@ a, .menu a, .footer-banner {
 .tap-anim{
   animation: tapPop 0.18s ease-out;
 }
-
