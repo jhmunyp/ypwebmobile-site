@@ -1,63 +1,62 @@
-// ===== 슬라이드 =====
-const slides=document.querySelector('.slides');
-let index=0;
-function showSlide(i){ slides.style.transform=`translateX(-${i*100}%)`; }
-let autoInterval=setInterval(()=>{ index=(index+1)%slides.children.length; showSlide(index); },3000);
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>모바일 메인</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
 
-// ===== 터치 스와이프 =====
-let startX=0,isTouching=false;
-const slider=document.querySelector('.slider');
-slider.addEventListener('touchstart',e=>{ startX=e.touches[0].clientX; isTouching=true; clearInterval(autoInterval); });
-slider.addEventListener('touchmove',e=>{ if(isTouching)e.preventDefault(); },{passive:false});
-slider.addEventListener('touchend',e=>{
-  const diff=startX - e.changedTouches[0].clientX;
-  if(Math.abs(diff)>50) index=diff>0?(index+1)%slides.children.length:(index-1+slides.children.length)%slides.children.length;
-  showSlide(index);
-  isTouching=false;
-  autoInterval=setInterval(()=>{ index=(index+1)%slides.children.length; showSlide(index); },3000);
-});
+<body>
+<div class="wrapper">
 
-// ===== 메뉴 버튼 터치 =====
-document.querySelectorAll('.menu a').forEach(btn=>{
-  btn.addEventListener('touchstart',()=>{ btn.style.transform='scale(0.97)'; btn.classList.add('is-active'); });
-  btn.addEventListener('touchend',()=>{ btn.style.transform='scale(1)'; btn.classList.remove('is-active'); });
-});
+  <!-- ===== 슬라이더 ===== -->
+  <div class="slider-wrapper">
+    <div class="slider" aria-label="메인 배너" role="region">
+      <div class="slides">
+        <div class="slide"><img src="images/banner1.jpg" alt="메인 배너 1" loading="lazy"></div>
+        <div class="slide"><img src="images/banner2.jpg" alt="메인 배너 2" loading="lazy"></div>
+        <div class="slide"><img src="images/banner3.jpg" alt="메인 배너 3" loading="lazy"></div>
+      </div>
+    </div>
+  </div>
 
-// ===== CI/BI 위치 자동 계산 =====
-function updateCiBiPosition(){
-  const ciBox=document.querySelector('.ci-box');
-  const biBox=document.querySelector('.bi-box');
+  <!-- 안내 텍스트 -->
+  <div class="subtitle-container">
+    <p class="subtitle">원하시는 서비스를 바로 이용하세요</p>
+  </div>
 
-  const viewportHeight=window.innerHeight;
+  <!-- 메뉴 -->
+  <div class="container">
+    <nav class="menu">
+      <a href="tel:01012345678">전화 걸기 <span aria-hidden="true">〉</span></a>
+      <a href="https://gilchkin.iyes.biz/" target="_blank" rel="noopener">객실체크인 <span aria-hidden="true">〉</span></a>
+      <a href="#">슬로프 운영현황 <span aria-hidden="true">〉</span></a>
+      <a href="#">식음/레저 운영정보 <span aria-hidden="true">〉</span></a>
+      <a href="#">KTX·셔틀 운영안내 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴1 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴2 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴3 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴4 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴5 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴6 <span aria-hidden="true">〉</span></a>
+      <a href="#">추가 메뉴7 <span aria-hidden="true">〉</span></a>
+    </nav>
+  </div>
 
-  const ciHeight=ciBox.offsetHeight;
-  const biHeight=biBox.offsetHeight;
+</div>
 
-  const bottomMargin=viewportHeight*0.02; // 2vw
-  ciBox.style.bottom=`${bottomMargin}px`;
-  biBox.style.bottom=`${bottomMargin + ciHeight + viewportHeight*0.01}px`; // 1vw margin
-}
+<!-- 하단 고정 버튼 -->
+<div class="bottom-buttons">
+  <a href="#" class="bottom-btn ivory">
+    <img src="images/CI/MONAYongPyongmallBI.jpg" alt="YongPyong BI" loading="lazy">
+  </a>
+  <a href="#" class="bottom-btn green">
+    <img src="images/CI/MONAYongPyongCI.jpg" alt="YongPyong CI" loading="lazy">
+  </a>
+</div>
 
-// 이미지 로드 후 계산
-window.addEventListener('load', updateCiBiPosition);
-window.addEventListener('resize', updateCiBiPosition);
-window.addEventListener('orientationchange', updateCiBiPosition);
-
-// ===== BI/CI 터치 확대 =====
-document.querySelectorAll('.bi-box,.ci-box').forEach(box=>{
-  box.addEventListener('touchstart',()=>{ box.style.transform='scale(1.05)'; });
-  box.addEventListener('touchend',()=>{ box.style.transform='scale(1)'; });
-});
-
-// ===== 슬라이더 높이 동적 조정 =====
-const sliderWrapper=document.querySelector('.slider-wrapper');
-function adjustSliderHeight(){
-  const firstImg=sliderWrapper.querySelector('img');
-  if(firstImg.complete){
-    sliderWrapper.style.height=firstImg.getBoundingClientRect().height+'px';
-  } else {
-    firstImg.onload=()=> sliderWrapper.style.height=firstImg.getBoundingClientRect().height+'px';
-  }
-}
-window.addEventListener('load',adjustSliderHeight);
-window.addEventListener('resize',adjustSliderHeight);
+<script src="js/main.js"></script>
+</body>
+</html>
