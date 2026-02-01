@@ -1,19 +1,45 @@
 const TAP_DURATION = 180;
 
-// ===== Tap animation =====
+/* 탭 애니 */
 function playTapAnimation(el) {
   el.classList.remove("tap-anim");
   void el.offsetWidth;
   el.classList.add("tap-anim");
 }
 
-// ===== 실제 보이는 화면 높이 + 메뉴 버튼 높이 자동 계산 =====
+/* 배너 높이: 첫 배너 이미지 비율로 고정 */
+function setBannerHeightByImage() {
+  const root = document.documentElement;
+  const slider = document.getElementById("slider");
+  const firstImg = document.querySelector("#slides .slide img");
+  if (!slider || !firstImg) return;
+
+  const w = slider.clientWidth || 0;
+  if (!w) return;
+
+  const nw = firstImg.naturalWidth;
+  const nh = firstImg.naturalHeight;
+  if (!nw || !nh) return; // 로딩 전이면 다음 호출에서 반영
+
+  const h = Math.round(w * (nh / nw));
+  root.style.setProperty("--bannerH", `${h}px`);
+}
+
+/* iOS(사파리/카톡)은 visualViewport, 그 외(갤럭시 인터넷)는 innerHeight */
+function getAppHeight() {
+  const vv = window.visualViewport;
+  const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  return isIOS ? Math.floor(vv?.height || window.innerHeight) : window.innerHeight;
+}
+
+/* 화면 높이 + 메뉴 버튼 높이 계산 */
 function setLayoutVars() {
   const root = document.documentElement;
-  const vv = window.visualViewport;
 
-  const appH = vv ? Math.floor(vv.height) : (window.innerHeight || root.clientHeight || 0);
+  const appH = getAppHeight();
   root.style.setProperty("--appH", `${appH}px`);
+
+  setBannerHeightByImage();
 
   const sliderWrap = document.querySelector(".slider-wrapper");
   const subtitleWrap = document.querySelector(".subtitle-container");
@@ -24,8 +50,6 @@ function setLayoutVars() {
   const links = document.querySelectorAll(".menu a");
 
   if (!sliderWrap || !subtitleWrap || !footer || !container || !menu || links.length === 0) return;
-
-  const rows = Math.ceil(links.length / 2);
 
   const topH =
     Math.ceil(sliderWrap.getBoundingClientRect().height) +
@@ -41,23 +65,23 @@ function setLayoutVars() {
   const ms = getComputedStyle(menu);
   const rowGap = parseFloat(ms.rowGap) || 0;
 
-  // 고정 간격(6px)도 뺀 남은 높이를 메뉴가 사용
   const menuAvail = appH - topH - footerH - gapH - padTop - padBot;
 
-  const gapsTotal = rowGap * (rows - 1);
-  let itemH = Math.floor((menuAvail - gapsTotal) / rows);
+  const cols = 2; // ✅ 2열 고정
+  const rows = Math.ceil(links.length / cols);
 
+  let itemH = Math.floor((menuAvail - rowGap * (rows - 1)) / rows);
   itemH = Math.max(itemH, 36);
+
   root.style.setProperty("--menuItemH", `${itemH}px`);
 }
 
-// ===== 링크 처리: tel은 기본 동작 유지(가로채지 않음) =====
+/* 링크 탭 처리: tel은 기본 동작, 나머지는 애니 후 이동 */
 function initTaps() {
   document.querySelectorAll(".menu a, .footer-banner").forEach((el) => {
     const href = (el.getAttribute("href") || "").trim();
     const lower = href.toLowerCase();
 
-    // 전화는 브라우저 기본 동작
     if (lower.startsWith("tel:")) {
       el.addEventListener("touchstart", () => playTapAnimation(el), { passive: true });
       el.addEventListener("click", () => playTapAnimation(el));
@@ -97,9 +121,10 @@ function initTaps() {
   });
 }
 
-// ===== 슬라이더: 스와이프 + 5초 자동, 튐 방지(px 기반) =====
-function initSliderSwipeOnly() {
-  const AUTO_SLIDE_MS = 5000; // ✅ 5초
+/* 슬라이더: 스와이프 + 5초 자동 */
+function initSlider() {
+  const AUTO_SLIDE_MS = 5000;
+
   const slider = document.getElementById("slider");
   const slides = document.getElementById("slides");
   if (!slider || !slides) return;
@@ -125,9 +150,7 @@ function initSliderSwipeOnly() {
 
   const startAuto = () => {
     stopAuto();
-    autoTimer = setInterval(() => {
-      goTo(index + 1);
-    }, AUTO_SLIDE_MS);
+    autoTimer = setInterval(() => goTo(index + 1), AUTO_SLIDE_MS);
   };
 
   setTransition(true);
@@ -208,13 +231,27 @@ function initSliderSwipeOnly() {
   window.visualViewport?.addEventListener("resize", () => { setLayoutVars(); fix(); });
 }
 
-// ===== init =====
+/* init */
 function initAll() {
   setLayoutVars();
   initTaps();
-  initSliderSwipeOnly();
+  initSlider();
+
+  // 로딩 후 보정(이미지/폰트 반영)
+  setTimeout(setLayoutVars, 120);
+  setTimeout(setLayoutVars, 260);
+
+  // 이미지 로딩으로 높이가 바뀌는 경우 대응
+  if (window.ResizeObserver) {
+    const ro = new ResizeObserver(() => setLayoutVars());
+    const sliderWrap = document.querySelector(".slider-wrapper");
+    const footer = document.querySelector(".footer-bar");
+    if (sliderWrap) ro.observe(sliderWrap);
+    if (footer) ro.observe(footer);
+  }
 }
 
 window.addEventListener("DOMContentLoaded", initAll);
-window.addEventListener("load", setLayoutVars);
+window.addEventListener("load", () => { setBannerHeightByImage(); setLayoutVars(); });
+window.addEventListener("orientationchange", () => setTimeout(setLayoutVars, 50));
 window.visualViewport?.addEventListener("scroll", setLayoutVars);
