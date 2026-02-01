@@ -29,11 +29,14 @@
     <!-- 메뉴 -->
     <main class="container" aria-label="서비스 메뉴">
       <nav class="menu">
-        <a href="tel:01012345678">전화 걸기 <span>〉</span></a>
+        <!-- ✅ 전화는 JS가 가로채지 않음(기본 tel 동작) -->
+        <a class="tel-link" href="tel:01082104129">전화 걸기 <span>〉</span></a>
+
         <a href="https://gilchkin.iyes.biz/">객실체크인 <span>〉</span></a>
         <a href="https://share.google/bIK4FIwg1I5erQH2F">슬로프 운영현황 <span>〉</span></a>
         <a href="https://share.google/7f2YXXVf0fzdZeXil">식음/레저 운영정보 <span>〉</span></a>
         <a href="https://share.google/NshHQboxiayUHrgPR">KTX·셔틀 운영안내 <span>〉</span></a>
+
         <a href="#">추가 메뉴1 <span>〉</span></a>
         <a href="#">추가 메뉴2 <span>〉</span></a>
         <a href="#">추가 메뉴3 <span>〉</span></a>
@@ -44,17 +47,17 @@
       </nav>
     </main>
 
-  </div>
+    <!-- ✅ footer를 wrapper 안으로 넣어서 iOS/카톡 인앱에서도 동일하게 -->
+    <footer class="footer-bar" aria-label="하단 고정 BI/CI">
+      <a href="https://example.com/bi" class="footer-banner">
+        <img src="images/CI/MONAYongPyongmallBI.jpg" alt="YongPyong Mall BI">
+      </a>
+      <a href="https://example.com/ci" class="footer-banner">
+        <img src="images/CI/MONAYongPyongCI.jpg" alt="YongPyong CI">
+      </a>
+    </footer>
 
-  <!-- 하단 고정 BI/CI -->
-  <footer class="footer-fixed" aria-label="하단 고정 버튼">
-    <a href="https://example.com/bi" class="footer-banner">
-      <img src="images/CI/MONAYongPyongmallBI.jpg" alt="YongPyong Mall BI">
-    </a>
-    <a href="https://example.com/ci" class="footer-banner">
-      <img src="images/CI/MONAYongPyongCI.jpg" alt="YongPyong CI">
-    </a>
-  </footer>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
